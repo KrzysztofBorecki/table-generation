@@ -10,6 +10,7 @@ body {
 	min-height: 100vh;
 	width: 100%;
 	font-family: Calibri, Arial, Helvetica, sans-serif;
+	color: rgb(39, 40, 43);
 	background-color: rgba(229, 234, 240, 0.5);
 }
 
@@ -42,27 +43,32 @@ form {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
-	max-width: 620px;
+	max-width: 600px;
 	font-size: 16px;
 	line-height: 2rem;
 }
 
 .inputContainer {
-	min-width: 215px;
+	min-width: 240px;
 	display: flex;
 	justify-content: space-between;
 	padding: 5px;
 }
 
 .inputContainer input {
-	width: 12ch;
+	width: 14ch;
 	text-align: center;
 	border: none;
 	border-radius: 1ch;
-	background-color: rgba(255, 255, 255, 0.5);
-	-webkit-box-shadow: 11px 11px 22px -9px rgba(201, 208, 215, 1);
-	-moz-box-shadow: 11px 11px 22px -9px rgba(201, 208, 215, 1);
-	box-shadow: 11px 11px 22px -9px rgba(201, 208, 215, 1);
+	font-size: 16px;
+	font-family: Calibri, Arial, Helvetica, sans-serif;
+	background-color: rgba(255, 255, 255, 0);
+	-webkit-box-shadow: 11px 11px 22px -9px rgba(201, 208, 215, 1),
+		inset 5px 5px 10px -9px rgba(201, 208, 215, 0.4);
+	-moz-box-shadow: 11px 11px 22px -9px rgba(201, 208, 215, 1),
+		inset 5px 5px 10px -9px rgba(201, 208, 215, 0.4);
+	box-shadow: 11px 11px 22px -9px rgba(201, 208, 215, 1),
+		inset 5px 5px 10px -9px rgba(201, 208, 215, 0.4);
 }
 
 .table-container {
