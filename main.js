@@ -1,30 +1,24 @@
 'use strict';
 
 (function createTable() {
-
     const tableInputs = ['numOfRows', 'numOfColumns', 'selectedRow', 'selectedColumn'];
+
     tableInputs.forEach((idName) => document.getElementById(`${idName}`)
         .addEventListener('keydown', buildTableForValidData));
 
-    function buildTableForValidData(e) {
-
-        // ### Value validation ###
-
-        function checkValAll(e) {
-            if (((e.target.value === '' || e.target.value === '0') && e.key === '0')
-                || (!((parseInt(e.key) <= 9) || ['ArrowLeft', 'ArrowRight', 'Delete', 'Backspace', 'Tab'].includes(e.key)))) {
-                e.preventDefault();
-            }
+    function checkValAll(e) {
+        if (((e.target.value === '' || e.target.value === '0') && e.key === '0')
+            || (!((parseInt(e.key) <= 9) || ['ArrowLeft', 'ArrowRight', 'Delete', 'Backspace', 'Tab'].includes(e.key)))) {
+            e.preventDefault();
         }
-        checkValAll(e);
+    }
+    checkValAll(e);
 
-        // ### document.getElementById('selectedRow') dynamic placeholder ### 
-        // ### document.getElementById('selectedColumn') dynamic placeholder ###
+    function buildTableForValidData(e) {
+        document.getElementById('numOfRows').addEventListener('input', setPlaceholder);
+        document.getElementById('numOfColumns').addEventListener('input', setPlaceholder);
 
-        document.getElementById('numOfRows').addEventListener('input', placeholder);
-        document.getElementById('numOfColumns').addEventListener('input', placeholder);
-
-        function placeholder(e) {
+        function setPlaceholder(e) {
             if (e.target === document.getElementById('numOfRows')) {
                 if (e.target.value > 0) {
                     document.getElementById('selectedRow').setAttribute('placeholder', `value 1 - ${e.target.value}`);
@@ -42,8 +36,6 @@
             }
         }
 
-        // ### Table creation ###
-
         document.getElementById('numOfRows').addEventListener('input', addNewTable)
         document.getElementById('numOfColumns').addEventListener('input', addNewTable)
 
@@ -53,31 +45,31 @@
 
             if (document.querySelector('.table-container')) {
                 document.querySelector('.table-container').remove();
-                document.getElementById('selectedRow').value = "";
-                document.getElementById('selectedColumn').value = "";
+                document.getElementById('selectedRow').value = '';
+                document.getElementById('selectedColumn').value = '';
             }
 
             if (declaredNumOfRows && declaredNumOfColumns) {
+                const arrOfColumns = [];
+                const arrOfRows = [];
                 const newTableCont = document.createElement('div');
                 const newTable = document.createElement('table');
                 const newTBody = document.createElement('tbody');
                 const newRow = document.createElement('tr');
                 const newDataCell = document.createElement('td');
 
-                newTableCont.classList = "table-container";
-                newTable.classList = "table";
-                newTBody.classList = "table-body"
-                newRow.classList = "table-row";
-                newDataCell.classList = "row-cell";
+                newTableCont.classList = 'table-container';
+                newTable.classList = 'table';
+                newTBody.classList = 'table-body'
+                newRow.classList = 'table-row';
+                newDataCell.classList = 'row-cell';
 
-                const arrOfColumns = [];
                 for (let i = 0; i < declaredNumOfColumns; i++) {
                     arrOfColumns.push(newDataCell.cloneNode());
                 }
 
                 newRow.append(...arrOfColumns);
-
-                const arrOfRows = [];
+              
                 for (let i = 0; i < declaredNumOfRows; i++) {
                     arrOfRows.push(newRow.cloneNode(true));
                 }
@@ -105,15 +97,10 @@
             }
         }
 
-        // ### Rows / Columns / Cross-point selection & coloring ###
-        // row          = green
-        // column       = red
-        // cross-point  = blue
+        document.getElementById('selectedRow').addEventListener('input', selectRowColumnCell);
+        document.getElementById('selectedColumn').addEventListener('input', selectRowColumnCell);
 
-        document.getElementById('selectedRow').addEventListener('input', select);
-        document.getElementById('selectedColumn').addEventListener('input', select);
-
-        function select() {
+        function selectRowColumnCell() {
             let selectedRow = null;
             let selectedColumn = null;
 
@@ -125,9 +112,9 @@
                 selectedColumn = parseInt(document.getElementById('selectedColumn').value);
             }
 
-            function selectGreen() {
+            function markSelectedRow() {
                 if (document.querySelector('.bg-green')) {
-                    document.querySelector('.bg-green').classList.remove("bg-green");
+                    document.querySelector('.bg-green').classList.remove('bg-green');
                 }
 
                 if (selectedRow > document.querySelector('.table').rows.length) return;
@@ -137,26 +124,26 @@
                     rowElem.classList.add('bg-green');
                 }
             }
-            selectGreen();
+            markSelectedRow();
 
-            function selectRed() {
+            function markSelectedColumn() {
                 if (document.querySelectorAll('.bg-red')) {
-                    document.querySelectorAll('.bg-red').forEach((elem) => elem.classList.remove("bg-red"));
+                    document.querySelectorAll('.bg-red').forEach((elem) => elem.classList.remove('bg-red'));
                 }
 
                 if (selectedColumn > document.querySelector('.table').rows[0].cells.length) return;
 
                 if (selectedColumn) {
                     Array.from(document.querySelector('.table').rows).forEach((elem) => {
-                        elem.cells[selectedColumn - 1].classList.add("bg-red");
+                        elem.cells[selectedColumn - 1].classList.add('bg-red');
                     });
                 }
             }
-            selectRed();
+            markSelectedColumn();
 
-            function selectBlue() {
+            function markSelectedCell() {
                 if (document.querySelector('.bg-blue')) {
-                    document.querySelector('.bg-blue').classList.remove("bg-blue");
+                    document.querySelector('.bg-blue').classList.remove('bg-blue');
                 }
 
                 if ((selectedRow && selectedColumn)
@@ -165,43 +152,34 @@
                     document.querySelector('.table')
                         .rows[selectedRow - 1]
                         .cells[selectedColumn - 1]
-                        .classList.add("bg-blue");
+                        .classList.add('bg-blue');
                 }
             }
-            selectBlue();
+            markSelectedCell();
         }
-
-        // ### document.getElementById('selectedColumn') validation error ###
-        // ### document.getElementById('selectedRow') validation error ### 
 
         tableInputs.forEach((idName) => {
             document.getElementById(`${idName}`).addEventListener('input', validationError);
         });
 
         function validationError(e) {
-            // on each input event ->
-            // -> remove each occurance of class .validationError
             if (document.querySelectorAll('.validationError')) {
                 Array.from(document.querySelectorAll('.validationError'))
                     .forEach((value) => value.classList.remove('validationError'));
             }
 
-            // -> remove each elements with class .validationErrorBox
             if (document.querySelector('.validationErrorBox')) {
                 document.querySelector('.validationErrorBox').remove();
             }
 
-            // -> if input 'selectedRow' is invalid -> add class .validationError
             if (parseInt(document.getElementById('selectedRow').value) > parseInt(document.getElementById('numOfRows').value)) {
                 document.getElementById('selectedRow').classList.add('validationError');
             }
 
-            // -> if input 'selectedColumn' is invalid -> add class .validationError
             if (parseInt(document.getElementById('selectedColumn').value) > parseInt(document.getElementById('numOfColumns').value)) {
                 document.getElementById('selectedColumn').classList.add('validationError');
             }
 
-            // -> if ANY 'selected*' input is invalid -> create Error Box with class .validationErrorBox  
             if (document.querySelector('.validationError')) {
                 const validationErrorBox = document.createElement('div');
                 validationErrorBox.classList.add('validationErrorBox');
