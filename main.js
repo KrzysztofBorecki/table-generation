@@ -14,6 +14,10 @@
     }
     checkValAll(e);
 
+    function getNumericValueById(elemId) {
+        return parseInt(document.getElementById(elemId).value);
+    }
+
     function buildTableForValidData(e) {
         document.getElementById('numOfRows').addEventListener('input', setPlaceholder);
         document.getElementById('numOfColumns').addEventListener('input', setPlaceholder);
@@ -40,8 +44,8 @@
         document.getElementById('numOfColumns').addEventListener('input', addNewTable)
 
         function addNewTable(e) {
-            let declaredNumOfRows = parseInt(document.getElementById('numOfRows').value);
-            let declaredNumOfColumns = parseInt(document.getElementById('numOfColumns').value);
+            let declaredNumOfRows = getNumericValueById('numOfRows');
+            let declaredNumOfColumns = getNumericValueById('numOfColumns');
 
             if (document.querySelector('.table-container')) {
                 document.querySelector('.table-container').remove();
@@ -104,12 +108,12 @@
             let selectedRow = null;
             let selectedColumn = null;
 
-            if (parseInt(document.getElementById('selectedRow').value)) {
-                selectedRow = parseInt(document.getElementById('selectedRow').value);
+            if (getNumericValueById('selectedRow')) {
+                selectedRow = getNumericValueById('selectedRow');
             }
 
-            if (parseInt(document.getElementById('selectedColumn').value)) {
-                selectedColumn = parseInt(document.getElementById('selectedColumn').value);
+            if (getNumericValueById('selectedColumn')) {
+                selectedColumn = getNumericValueById('selectedColumn');
             }
 
             function markSelectedRow() {
@@ -162,6 +166,8 @@
             document.getElementById(`${idName}`).addEventListener('input', validationError);
         });
 
+
+
         function validationError(e) {
             if (document.querySelectorAll('.validationError')) {
                 Array.from(document.querySelectorAll('.validationError'))
@@ -172,11 +178,11 @@
                 document.querySelector('.validationErrorBox').remove();
             }
 
-            if (parseInt(document.getElementById('selectedRow').value) > parseInt(document.getElementById('numOfRows').value)) {
+            if (getNumericValueById('selectedRow') > getNumericValueById('numOfRows')) {
                 document.getElementById('selectedRow').classList.add('validationError');
             }
 
-            if (parseInt(document.getElementById('selectedColumn').value) > parseInt(document.getElementById('numOfColumns').value)) {
+            if (getNumericValueById('selectedColumn') > getNumericValueById('numOfColumns')) {
                 document.getElementById('selectedColumn').classList.add('validationError');
             }
 
