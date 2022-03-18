@@ -5,6 +5,8 @@
 
     tableInputs.forEach((idName) => document.getElementById(`${idName}`)
         .addEventListener('keydown', buildTableForValidData));
+    tableInputs.forEach((idName) => document.getElementById(`${idName}`)
+        .addEventListener('keydown', checkValAll));    
 
     function checkValAll(e) {
         if (((e.target.value === '' || e.target.value === '0') && e.key === '0')
@@ -12,7 +14,6 @@
             e.preventDefault();
         }
     }
-    checkValAll(e);
 
     function getNumericValueById(elemId) {
         return parseInt(document.getElementById(elemId).value);
@@ -43,61 +44,91 @@
         document.getElementById('numOfRows').addEventListener('input', addNewTable)
         document.getElementById('numOfColumns').addEventListener('input', addNewTable)
 
-        function addNewTable(e) {
-            let declaredNumOfRows = getNumericValueById('numOfRows');
-            let declaredNumOfColumns = getNumericValueById('numOfColumns');
-
-            if (document.querySelector('.table-container')) {
-                document.querySelector('.table-container').remove();
-                document.getElementById('selectedRow').value = '';
-                document.getElementById('selectedColumn').value = '';
+        function addNewTable() {
+            const declaredNumOfRows = getNumericValueById('numOfRows');
+            const declaredNumOfColumns = getNumericValueById('numOfColumns');
+           
+            function removeOldTable(){
+                if (document.querySelector('.table-container')) {
+                    document.querySelector('.table-container').remove();
+                    document.getElementById('selectedRow').value = '';
+                    document.getElementById('selectedColumn').value = '';
+                }
             }
+            removeOldTable()
 
             if (declaredNumOfRows && declaredNumOfColumns) {
-                const arrOfColumns = [];
-                const arrOfRows = [];
+                const arrOfElements = createArrayOfTabElem();
+                appendTableElements(...arrOfElements);
+                addValues();
+            }
+
+            function createArrayOfTabElem() {
                 const newTableCont = document.createElement('div');
                 const newTable = document.createElement('table');
                 const newTBody = document.createElement('tbody');
                 const newRow = document.createElement('tr');
                 const newDataCell = document.createElement('td');
 
-                newTableCont.classList = 'table-container';
-                newTable.classList = 'table';
-                newTBody.classList = 'table-body'
-                newRow.classList = 'table-row';
-                newDataCell.classList = 'row-cell';
+                newTableCont.classList = "table-container";
+                newTable.classList = "table";
+                newTBody.classList = "table-body"
+                newRow.classList = "table-row";
+                newDataCell.classList = "row-cell";
+                
+                return [newTableCont, newTable, newTBody, newRow, newDataCell];
+            }        
 
-                for (let i = 0; i < declaredNumOfColumns; i++) {
-                    arrOfColumns.push(newDataCell.cloneNode());
-                }
+            function appendTableElements(newTableCont, newTable, newTBody, newRow, newDataCell) {
+                const arrOfColumns = Array(declaredNumOfColumns).fill(null).map(() => newDataCell.cloneNode());
 
                 newRow.append(...arrOfColumns);
-              
-                for (let i = 0; i < declaredNumOfRows; i++) {
-                    arrOfRows.push(newRow.cloneNode(true));
-                }
+
+                const arrOfRows = Array(declaredNumOfRows).fill(null).map(() => newRow.cloneNode(true));
 
                 newTBody.append(...arrOfRows);
+
+                // const arrOfColumns = [];
+
+                // for (let i = 0; i < declaredNumOfColumns; i++) {
+                //     arrOfColumns.push(newDataCell.cloneNode());
+                // }
+
+                // newRow.append(...arrOfColumns);
+
+                // const arrOfRows = [];
+
+                // for (let i = 0; i < declaredNumOfRows; i++) {
+                //     arrOfRows.push(newRow.cloneNode(true));
+                // }
+
+                // newTBody.append(...arrOfRows);
                 newTable.append(newTBody);
                 newTableCont.append(newTable);
 
-                document.querySelector('section').append(newTableCont);
+                document.querySelector('section').append(newTableCont);  
             }
-            addValues();
         }
 
         function addValues() {
-            let rowNumb = 1;
             if (document.querySelector('.table')) {
-                for (let row of document.querySelector('.table').rows) {
-                    let columnNumb = 1;
-                    for (let cell of row.cells) {
-                        cell.innerHTML = `${rowNumb}${columnNumb}`;
-                        columnNumb += 1;
-                    }
-                    rowNumb += 1;
-                }
+                // let rowNumb = 1;
+
+                // for (let row of document.querySelector('.table').rows) {
+                //     let columnNumb = 1;
+
+                //     for (let cell of row.cells) {
+                //         cell.innerHTML = `${rowNumb}${columnNumb}`;
+                //         columnNumb += 1;
+                //     }
+                //     rowNumb += 1;
+                // }
+
+                Array.from(document.querySelector('.table').rows).forEach((row, rowIndex) => {
+                    Array.from(row.cells).forEach((cell, colIndex) => {
+                        cell.innerHTML = `${rowIndex + 1}${colIndex + 1}`;
+                    })
+                }); 
             }
         }
 
