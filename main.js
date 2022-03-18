@@ -41,21 +41,23 @@
             }
         }
 
+        document.getElementById('numOfRows').addEventListener('input', removeOldTable)
+        document.getElementById('numOfColumns').addEventListener('input', removeOldTable)
+
+        function removeOldTable(){
+            if (document.querySelector('.table-container')) {
+                document.querySelector('.table-container').remove();
+                document.getElementById('selectedRow').value = '';
+                document.getElementById('selectedColumn').value = '';
+            }
+        }
+
         document.getElementById('numOfRows').addEventListener('input', addNewTable)
         document.getElementById('numOfColumns').addEventListener('input', addNewTable)
 
         function addNewTable() {
             const declaredNumOfRows = getNumericValueById('numOfRows');
             const declaredNumOfColumns = getNumericValueById('numOfColumns');
-           
-            function removeOldTable(){
-                if (document.querySelector('.table-container')) {
-                    document.querySelector('.table-container').remove();
-                    document.getElementById('selectedRow').value = '';
-                    document.getElementById('selectedColumn').value = '';
-                }
-            }
-            removeOldTable()
 
             if (declaredNumOfRows && declaredNumOfColumns) {
                 const arrOfElements = createArrayOfTabElem();
@@ -80,29 +82,17 @@
             }        
 
             function appendTableElements(newTableCont, newTable, newTBody, newRow, newDataCell) {
-                const arrOfColumns = Array(declaredNumOfColumns).fill(null).map(() => newDataCell.cloneNode());
+                const arrOfColumns = Array(declaredNumOfColumns)
+                    .fill(null)
+                    .map(() => newDataCell.cloneNode());
 
                 newRow.append(...arrOfColumns);
 
-                const arrOfRows = Array(declaredNumOfRows).fill(null).map(() => newRow.cloneNode(true));
+                const arrOfRows = Array(declaredNumOfRows)
+                    .fill(null)
+                    .map(() => newRow.cloneNode(true));
 
                 newTBody.append(...arrOfRows);
-
-                // const arrOfColumns = [];
-
-                // for (let i = 0; i < declaredNumOfColumns; i++) {
-                //     arrOfColumns.push(newDataCell.cloneNode());
-                // }
-
-                // newRow.append(...arrOfColumns);
-
-                // const arrOfRows = [];
-
-                // for (let i = 0; i < declaredNumOfRows; i++) {
-                //     arrOfRows.push(newRow.cloneNode(true));
-                // }
-
-                // newTBody.append(...arrOfRows);
                 newTable.append(newTBody);
                 newTableCont.append(newTable);
 
@@ -112,18 +102,6 @@
 
         function addValues() {
             if (document.querySelector('.table')) {
-                // let rowNumb = 1;
-
-                // for (let row of document.querySelector('.table').rows) {
-                //     let columnNumb = 1;
-
-                //     for (let cell of row.cells) {
-                //         cell.innerHTML = `${rowNumb}${columnNumb}`;
-                //         columnNumb += 1;
-                //     }
-                //     rowNumb += 1;
-                // }
-
                 Array.from(document.querySelector('.table').rows).forEach((row, rowIndex) => {
                     Array.from(row.cells).forEach((cell, colIndex) => {
                         cell.innerHTML = `${rowIndex + 1}${colIndex + 1}`;
