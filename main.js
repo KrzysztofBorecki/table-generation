@@ -178,27 +178,6 @@
             document.getElementById(`${idName}`).addEventListener('input', addValidationErrorStyles);
         });
 
-        // function addValidationErrorStyles(e) {
-        //     if (document.querySelectorAll('.validationError')) {
-        //         Array.from(document.querySelectorAll('.validationError'))
-        //             .forEach((value) => value.classList.remove('validationError'));
-        //     }
-
-        //     if (getNumericValueById('selectedRow') > getNumericValueById('numOfRows')) {
-        //         document.getElementById('selectedRow').classList.add('validationError');
-        //     }
-
-        //     if (getNumericValueById('selectedColumn') > getNumericValueById('numOfColumns')) {
-        //         document.getElementById('selectedColumn').classList.add('validationError');
-        //     }
-
-        //     if (!document.querySelector('.validationError')) {
-        //         document.querySelector('.validationErrorBox').classList.add('hidden');
-        //     } else {
-        //         document.querySelector('.validationErrorBox').classList.remove('hidden');
-        //     }
-        // }
-
         function removeValidationErrorStyles(e) {
             if (document.querySelectorAll('.validationError')) {
                 Array.from(document.querySelectorAll('.validationError'))
