@@ -95,7 +95,6 @@
                 newTBody.append(...arrOfRows);
                 newTable.append(newTBody);
                 newTableCont.append(newTable);
-
                 document.querySelector('section').append(newTableCont);  
             }
         }
@@ -172,21 +171,46 @@
         }
 
         tableInputs.forEach((idName) => {
-            document.getElementById(`${idName}`).addEventListener('input', validationError);
+            document.getElementById(`${idName}`).addEventListener('input', removeValidationErrorStyles);
         });
 
+        tableInputs.forEach((idName) => {
+            document.getElementById(`${idName}`).addEventListener('input', addValidationErrorStyles);
+        });
 
+        // function addValidationErrorStyles(e) {
+        //     if (document.querySelectorAll('.validationError')) {
+        //         Array.from(document.querySelectorAll('.validationError'))
+        //             .forEach((value) => value.classList.remove('validationError'));
+        //     }
 
-        function validationError(e) {
+        //     if (getNumericValueById('selectedRow') > getNumericValueById('numOfRows')) {
+        //         document.getElementById('selectedRow').classList.add('validationError');
+        //     }
+
+        //     if (getNumericValueById('selectedColumn') > getNumericValueById('numOfColumns')) {
+        //         document.getElementById('selectedColumn').classList.add('validationError');
+        //     }
+
+        //     if (!document.querySelector('.validationError')) {
+        //         document.querySelector('.validationErrorBox').classList.add('hidden');
+        //     } else {
+        //         document.querySelector('.validationErrorBox').classList.remove('hidden');
+        //     }
+        // }
+
+        function removeValidationErrorStyles(e) {
             if (document.querySelectorAll('.validationError')) {
                 Array.from(document.querySelectorAll('.validationError'))
                     .forEach((value) => value.classList.remove('validationError'));
             }
 
-            if (document.querySelector('.validationErrorBox')) {
-                document.querySelector('.validationErrorBox').remove();
+            if (!document.querySelector('.validationError')) {
+                document.querySelector('.validationErrorBox').classList.add('hidden');
             }
+        }
 
+        function addValidationErrorStyles(e) {
             if (getNumericValueById('selectedRow') > getNumericValueById('numOfRows')) {
                 document.getElementById('selectedRow').classList.add('validationError');
             }
@@ -196,10 +220,7 @@
             }
 
             if (document.querySelector('.validationError')) {
-                const validationErrorBox = document.createElement('div');
-                validationErrorBox.classList.add('validationErrorBox');
-                validationErrorBox.textContent = `Error: Entered value is too high!\r\nPlease enter correct value!`;
-                document.forms[0].after(validationErrorBox);
+                document.querySelector('.validationErrorBox').classList.remove('hidden');
             }
         }
     }
