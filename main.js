@@ -72,11 +72,11 @@
                 const newRow = document.createElement('tr');
                 const newDataCell = document.createElement('td');
 
-                newTableCont.classList = "table-container";
-                newTable.classList = "table";
-                newTBody.classList = "table-body"
-                newRow.classList = "table-row";
-                newDataCell.classList = "row-cell";
+                newTableCont.classList = 'table-container';
+                newTable.classList = 'table';
+                newTBody.classList = 'table-body'
+                newRow.classList = 'table-row';
+                newDataCell.classList = 'row-cell';
                 
                 return [newTableCont, newTable, newTBody, newRow, newDataCell];
             }        
