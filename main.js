@@ -15,8 +15,8 @@
         }
     }
 
-    function getNumericValueById(elemId) {
-        return parseInt(document.getElementById(elemId).value);
+    function getNumericValueById(elementId) {
+        return parseInt(document.getElementById(elementId).value);
     }
 
     function buildTableForValidData(e) {
