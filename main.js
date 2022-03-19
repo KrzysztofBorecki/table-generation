@@ -19,7 +19,7 @@
         return parseInt(document.getElementById(elementId).value);
     }
 
-    function buildTableForValidData(e) {
+    function buildTableForValidData() {
         document.getElementById('numOfRows').addEventListener('input', setPlaceholder);
         document.getElementById('numOfColumns').addEventListener('input', setPlaceholder);
 
