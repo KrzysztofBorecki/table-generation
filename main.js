@@ -1,17 +1,24 @@
 'use strict';
 
 (function createTable() {
-    const tableInputs = ['numOfRows', 'numOfColumns', 'selectedRow', 'selectedColumn'];
+    const listOfFormFieldsNames = ['numOfRows', 'numOfColumns', 'selectedRow', 'selectedColumn'];
 
-    tableInputs.forEach((idName) => document.getElementById(`${idName}`)
+    function getFormFields() {
+        const listOfFormFields = {};
+        listOfFormFieldsNames.forEach((nameOfFormField) => {
+            listOfFormFields[nameOfFormField] = document.getElementById(nameOfFormField)
+        });
+        return listOfFormFields;
+    }
+
+    listOfFormFieldsNames.forEach((elementId) => document.getElementById(`${elementId}`)
         .addEventListener('keydown', buildTableForValidData));
-    tableInputs.forEach((idName) => document.getElementById(`${idName}`)
-        .addEventListener('keydown', checkValAll));    
 
-    function checkValAll(e) {
+    function hasClickedForbiddenKey(e) {
         if (((e.target.value === '' || e.target.value === '0') && e.key === '0')
             || (!((parseInt(e.key) <= 9) || ['ArrowLeft', 'ArrowRight', 'Delete', 'Backspace', 'Tab'].includes(e.key)))) {
             e.preventDefault();
+            return true;
         }
     }
 
@@ -19,27 +26,28 @@
         return parseInt(document.getElementById(elementId).value);
     }
 
-    function buildTableForValidData() {
-        document.getElementById('numOfRows').addEventListener('input', setPlaceholder);
-        document.getElementById('numOfColumns').addEventListener('input', setPlaceholder);
-
-        function setPlaceholder(e) {
-            if (e.target === document.getElementById('numOfRows')) {
-                if (e.target.value > 0) {
-                    document.getElementById('selectedRow').setAttribute('placeholder', `value 1 - ${e.target.value}`);
-                } else {
-                    document.getElementById('selectedRow').setAttribute('placeholder', `value > 0`);
-                }
-            }
-
-            if (e.target === document.getElementById('numOfColumns')) {
-                if (e.target.value > 0) {
-                    document.getElementById('selectedColumn').setAttribute('placeholder', `value 1 - ${e.target.value}`);
-                } else {
-                    document.getElementById('selectedColumn').setAttribute('placeholder', `value > 0`);
-                }
-            }
+    function buildTableForValidData(e) {
+        if (hasClickedForbiddenKey(e)) {
+            return;
         }
+
+        document.getElementById('numOfRows').addEventListener('input', setPlaceholders);
+        document.getElementById('numOfColumns').addEventListener('input', setPlaceholders);
+
+        function setPlaceholder(selector, value) {
+            selector.setAttribute('placeholder', value);
+        }
+
+        function setPlaceholders() {
+            const listOfFormFields = getFormFields();
+            const selectedRowPlaceholder = (listOfFormFields.numOfRows.value > 0) 
+                ? `value 1 - ${listOfFormFields.numOfRows.value}` : 'value > 0';
+            const selectedColumnPlaceholder = (listOfFormFields.numOfColumns.value > 0) 
+                ? `value 1 - ${listOfFormFields.numOfColumns.value}` : 'value > 0';
+
+            setPlaceholder(listOfFormFields.selectedRow, selectedRowPlaceholder);
+            setPlaceholder(listOfFormFields.selectedColumn, selectedColumnPlaceholder);
+        } 
 
         document.getElementById('numOfRows').addEventListener('input', removeOldTable)
         document.getElementById('numOfColumns').addEventListener('input', removeOldTable)
@@ -112,6 +120,48 @@
         document.getElementById('selectedRow').addEventListener('input', selectRowColumnCell);
         document.getElementById('selectedColumn').addEventListener('input', selectRowColumnCell);
 
+        function markSelectedRow(selectedRow) {
+            if (document.querySelector('.bg-green')) {
+                document.querySelector('.bg-green').classList.remove('bg-green');
+            }
+
+            if (selectedRow > document.querySelector('.table').rows.length) return;
+
+            if (selectedRow) {
+                const rowElem = document.querySelector('.table').rows[selectedRow - 1];
+                rowElem.classList.add('bg-green');
+            }
+        }
+
+        function markSelectedColumn(selectedColumn) {
+            if (document.querySelectorAll('.bg-red')) {
+                document.querySelectorAll('.bg-red').forEach((elem) => elem.classList.remove('bg-red'));
+            }
+
+            if (selectedColumn > document.querySelector('.table').rows[0].cells.length) return;
+
+            if (selectedColumn) {
+                Array.from(document.querySelector('.table').rows).forEach((elem) => {
+                    elem.cells[selectedColumn - 1].classList.add('bg-red');
+                });
+            }
+        }
+
+        function markSelectedCell(selectedRow, selectedColumn) {
+            if (document.querySelector('.bg-blue')) {
+                document.querySelector('.bg-blue').classList.remove('bg-blue');
+            }
+
+            if ((selectedRow && selectedColumn)
+                && !(selectedRow > document.querySelector('.table').rows.length
+                    && selectedColumn > document.querySelector('.table').rows[0].cells.length)) {
+                document.querySelector('.table')
+                    .rows[selectedRow - 1]
+                    .cells[selectedColumn - 1]
+                    .classList.add('bg-blue');
+            }
+        }
+
         function selectRowColumnCell() {
             let selectedRow = null;
             let selectedColumn = null;
@@ -124,61 +174,20 @@
                 selectedColumn = getNumericValueById('selectedColumn');
             }
 
-            function markSelectedRow() {
-                if (document.querySelector('.bg-green')) {
-                    document.querySelector('.bg-green').classList.remove('bg-green');
-                }
-
-                if (selectedRow > document.querySelector('.table').rows.length) return;
-
-                if (selectedRow) {
-                    const rowElem = document.querySelector('.table').rows[selectedRow - 1];
-                    rowElem.classList.add('bg-green');
-                }
-            }
-            markSelectedRow();
-
-            function markSelectedColumn() {
-                if (document.querySelectorAll('.bg-red')) {
-                    document.querySelectorAll('.bg-red').forEach((elem) => elem.classList.remove('bg-red'));
-                }
-
-                if (selectedColumn > document.querySelector('.table').rows[0].cells.length) return;
-
-                if (selectedColumn) {
-                    Array.from(document.querySelector('.table').rows).forEach((elem) => {
-                        elem.cells[selectedColumn - 1].classList.add('bg-red');
-                    });
-                }
-            }
-            markSelectedColumn();
-
-            function markSelectedCell() {
-                if (document.querySelector('.bg-blue')) {
-                    document.querySelector('.bg-blue').classList.remove('bg-blue');
-                }
-
-                if ((selectedRow && selectedColumn)
-                    && !(selectedRow > document.querySelector('.table').rows.length
-                        && selectedColumn > document.querySelector('.table').rows[0].cells.length)) {
-                    document.querySelector('.table')
-                        .rows[selectedRow - 1]
-                        .cells[selectedColumn - 1]
-                        .classList.add('bg-blue');
-                }
-            }
-            markSelectedCell();
+            markSelectedRow(selectedRow);
+            markSelectedColumn(selectedColumn);
+            markSelectedCell(selectedRow, selectedColumn);
         }
 
-        tableInputs.forEach((idName) => {
+        listOfFormFieldsNames.forEach((idName) => {
             document.getElementById(`${idName}`).addEventListener('input', removeValidationErrorStyles);
         });
 
-        tableInputs.forEach((idName) => {
+        listOfFormFieldsNames.forEach((idName) => {
             document.getElementById(`${idName}`).addEventListener('input', addValidationErrorStyles);
         });
 
-        function removeValidationErrorStyles(e) {
+        function removeValidationErrorStyles() {
             if (document.querySelectorAll('.validationError')) {
                 Array.from(document.querySelectorAll('.validationError'))
                     .forEach((value) => value.classList.remove('validationError'));
@@ -189,7 +198,7 @@
             }
         }
 
-        function addValidationErrorStyles(e) {
+        function addValidationErrorStyles() {
             if (getNumericValueById('selectedRow') > getNumericValueById('numOfRows')) {
                 document.getElementById('selectedRow').classList.add('validationError');
             }
