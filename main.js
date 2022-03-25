@@ -27,12 +27,6 @@
         }
     }
 
-    function buildTableForValidData(e) {
-        if (hasClickedForbiddenKey(e)) {
-            return;
-        }
-    }
-
     function getNumericValueById(elementId) {
         return parseInt(document.getElementById(elementId).value);
     }
@@ -209,7 +203,7 @@
     }
 
     listOfFormFieldsNames.forEach((elementId) => {
-        document.getElementById(`${elementId}`).addEventListener('keydown', buildTableForValidData);
+        document.getElementById(`${elementId}`).addEventListener('keydown', hasClickedForbiddenKey);
     });
 
     document.getElementById('numOfRows').addEventListener('input', setPlaceholders);
