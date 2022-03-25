@@ -53,9 +53,11 @@
 
     function disableSelectingFields() {
         const listOfFormFields = getFormFields();
-        const selectedRowDisableStatus = (listOfFormFields.numOfRows.value > 0) 
+        const selectedRowDisableStatus = (listOfFormFields.numOfRows.value > 0) ||
+            (listOfFormFields.selectedRow.value > 0)
             ? true : false;
-        const selectedColumnDisableStatus = (listOfFormFields.numOfColumns.value > 0) 
+        const selectedColumnDisableStatus = (listOfFormFields.numOfColumns.value > 0) ||
+            (listOfFormFields.selectedColumn.value > 0)
             ? true : false;
         disableSelectingField(listOfFormFields.selectedRow, !selectedRowDisableStatus);
         disableSelectingField(listOfFormFields.selectedColumn, !selectedColumnDisableStatus);
@@ -221,9 +223,6 @@
     document.getElementById('numOfRows').addEventListener('input', setPlaceholders);
     document.getElementById('numOfColumns').addEventListener('input', setPlaceholders);
 
-    document.getElementById('numOfRows').addEventListener('input', disableSelectingFields);
-    document.getElementById('numOfColumns').addEventListener('input', disableSelectingFields);
-
     document.getElementById('numOfRows').addEventListener('input', removeOldTable);
     document.getElementById('numOfColumns').addEventListener('input', removeOldTable);
 
@@ -236,6 +235,10 @@
     listOfFormFieldsNames.forEach((elementId) => {
         document.getElementById(`${elementId}`).addEventListener('keydown', hasClickedForbiddenKey);
     });
+
+    listOfFormFieldsNames.forEach((elementId) => {
+        document.getElementById(`${elementId}`).addEventListener('input', disableSelectingFields);
+    }); 
     
     listOfFormFieldsNames.forEach((elementId) => {
         document.getElementById(`${elementId}`).addEventListener('input', removeValidationErrorStyles);
