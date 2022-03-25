@@ -59,6 +59,7 @@
         const selectedColumnDisableStatus = (listOfFormFields.numOfColumns.value > 0) ||
             (listOfFormFields.selectedColumn.value > 0)
             ? true : false;
+            
         disableSelectingField(listOfFormFields.selectedRow, !selectedRowDisableStatus);
         disableSelectingField(listOfFormFields.selectedColumn, !selectedColumnDisableStatus);
     } 
