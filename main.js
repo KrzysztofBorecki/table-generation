@@ -10,6 +10,7 @@
 
     function getFormFields() {
         const listOfFormFields = {};
+        
         listOfFormFieldsNames.forEach((nameOfFormField) => {
             listOfFormFields[nameOfFormField] = document.getElementById(nameOfFormField)
         });
@@ -31,6 +32,23 @@
         return parseInt(document.getElementById(elementId).value);
     }
 
+    // function isSelected() {
+    //     return (getNumericValueById('numOfRows')) ? true : false;
+    // }
+    // function disableSelectingField(e){
+    //     document.getElementById('selectedRow').disabled = true;
+    //     document.getElementById('selectedColumn').disabled = true;
+
+    //     if (!getNumericValueById('numOfRows')) return;
+
+    //     document.getElementById('selectedRow').disabled = false;
+        
+
+    //     if  (!getNumericValueById('numOfColumns')) return;
+        
+    //     document.getElementById('selectedColumn').disabled = false
+    // }
+
     function setPlaceholder(selector, value) {
         selector.setAttribute('placeholder', value);
     }
@@ -44,6 +62,22 @@
 
         setPlaceholder(listOfFormFields.selectedRow, selectedRowPlaceholder);
         setPlaceholder(listOfFormFields.selectedColumn, selectedColumnPlaceholder);
+    } 
+
+    function disableSelectingField(selector, value) {
+        selector.disabled = value;
+    }
+
+    function disableSelectingFields() {
+        const listOfFormFields = getFormFields();
+        const selectedRowDisableStatus = (listOfFormFields.numOfRows.value > 0) 
+            ? true : false;
+            console.log(selectedRowDisableStatus);
+        const selectedColumnDisableStatus = (listOfFormFields.numOfColumns.value > 0) 
+            ? true : false;
+        console.log(selectedColumnDisableStatus);
+        disableSelectingField(listOfFormFields.selectedRow, !selectedRowDisableStatus);
+        disableSelectingField(listOfFormFields.selectedColumn, !selectedColumnDisableStatus);
     } 
 
     function removeOldTable(){
@@ -205,6 +239,9 @@
 
     document.getElementById('numOfRows').addEventListener('input', setPlaceholders);
     document.getElementById('numOfColumns').addEventListener('input', setPlaceholders);
+
+    document.getElementById('numOfRows').addEventListener('input', disableSelectingFields);
+    document.getElementById('numOfColumns').addEventListener('input', disableSelectingFields);
 
     document.getElementById('numOfRows').addEventListener('input', removeOldTable);
     document.getElementById('numOfColumns').addEventListener('input', removeOldTable);
