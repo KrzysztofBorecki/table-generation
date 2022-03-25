@@ -73,7 +73,8 @@
     function appendTableElements(
         declaredNumOfRows, 
         declaredNumOfColumns, 
-        newTableCont, newTable, 
+        newTableCont, 
+        newTable, 
         newTBody, 
         newRow, 
         newDataCell
@@ -202,10 +203,6 @@
         }
     }
 
-    listOfFormFieldsNames.forEach((elementId) => {
-        document.getElementById(`${elementId}`).addEventListener('keydown', hasClickedForbiddenKey);
-    });
-
     document.getElementById('numOfRows').addEventListener('input', setPlaceholders);
     document.getElementById('numOfColumns').addEventListener('input', setPlaceholders);
 
@@ -218,6 +215,10 @@
     document.getElementById('selectedRow').addEventListener('input', selectRowColumnCell);
     document.getElementById('selectedColumn').addEventListener('input', selectRowColumnCell);
 
+    listOfFormFieldsNames.forEach((elementId) => {
+        document.getElementById(`${elementId}`).addEventListener('keydown', hasClickedForbiddenKey);
+    });
+    
     listOfFormFieldsNames.forEach((elementId) => {
         document.getElementById(`${elementId}`).addEventListener('input', removeValidationErrorStyles);
     });
