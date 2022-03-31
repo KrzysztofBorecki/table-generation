@@ -21,8 +21,6 @@
         }, {});
     }
 
-    const formFields = getFormFields();
-
     function hasClickedForbiddenKey(e) {
         if (
             ((e.target.value === '' || e.target.value === '0') && e.key === '0')
@@ -81,9 +79,11 @@
 
         if (tableElement) {
             tableElement.remove();
-            formFields.selectedRow.value = '';
-            formFields.selectedColumn.value = '';
         }
+        // if () {
+        //     formFields.selectedRow.value = '';
+        //     formFields.selectedColumn.value = '';
+        // }
     }
 
     function createTableElements() {
@@ -104,24 +104,52 @@
 
     function appendTableElements(
         declaredNumOfRows, 
-        declaredNumOfColumns, 
+        declaredNumOfColumns,
+        declaredSelectedRow,
+        declaredSelectedColumn, 
         newTableCont, 
         newTable, 
         newTBody, 
         newRow, 
         newDataCell
     ) {
-        const arrOfColumns = Array(declaredNumOfColumns)
+        // const arrOfColumns = Array(declaredNumOfColumns)
+        //     .fill(null)
+        //     .map(() => newDataCell.cloneNode());
+
+        // newRow.append(...arrOfColumns);
+
+        // const arrOfRows = Array(declaredNumOfRows)
+        //     .fill(null)
+        //     .map(() => newRow.cloneNode(true));
+
+        // newTBody.append(...arrOfRows);
+
+        const columnElements = Array(declaredNumOfColumns)
             .fill(null)
-            .map(() => newDataCell.cloneNode());
+            .map((_, idx) => {
+                const clonedElement = newDataCell.cloneNode();
+                if (declaredSelectedColumn && idx === declaredSelectedColumn - 1) {
+                    clonedElement.classList.add('selected-column');
+                }
+                return clonedElement;
+        });
+   
+        newRow.append(...columnElements);
 
-        newRow.append(...arrOfColumns);
+        const rowElements = Array(declaredNumOfRows)
+        .fill(null)
+        .map((_, idx) => {
+            const clonedElement = newRow.cloneNode(true);
+            
+            if (declaredSelectedRow && idx === declaredSelectedRow - 1) {
+                clonedElement.classList.add('selected-row');
+            }
+            
+            return clonedElement;
+        });
 
-        const arrOfRows = Array(declaredNumOfRows)
-            .fill(null)
-            .map(() => newRow.cloneNode(true));
-
-        newTBody.append(...arrOfRows);
+        newTBody.append(...rowElements);
         newTable.append(newTBody);
         newTableCont.append(newTable);
         document.querySelector('section').append(newTableCont);
@@ -140,57 +168,59 @@
     function addNewTable() {
         const declaredNumOfRows = getNumericValueById('numOfRows');
         const declaredNumOfColumns = getNumericValueById('numOfColumns');
+        const declaredSelectedRow = getNumericValueById('selectedRow');
+        const declaredSelectedColumn = getNumericValueById('selectedColumn');
 
         if (declaredNumOfRows && declaredNumOfColumns) {
             const arrOfElements = createTableElements();
-            appendTableElements(declaredNumOfRows, declaredNumOfColumns, ...arrOfElements);
+            appendTableElements(declaredNumOfRows, declaredNumOfColumns, declaredSelectedRow, declaredSelectedColumn, ...arrOfElements);
             addValues();
         }
     }
 
-    function markSelectedRow(selectedRow) {
-        if (document.querySelector('.selected-row')) {
-            document.querySelector('.selected-row').classList.remove('selected-row');
-        }
+    // function markSelectedRow(selectedRow) {
+    //     if (document.querySelector('.selected-row')) {
+    //         document.querySelector('.selected-row').classList.remove('selected-row');
+    //     }
 
-        if (selectedRow > document.querySelector('.table').rows.length) return;
+    //     if (selectedRow > document.querySelector('.table').rows.length) return;
 
-        if (selectedRow) {
-            const rowElem = document.querySelector('.table').rows[selectedRow - 1];
-            rowElem.classList.add('selected-row');
-        }
-    }
+    //     if (selectedRow) {
+    //         const rowElem = document.querySelector('.table').rows[selectedRow - 1];
+    //         rowElem.classList.add('selected-row');
+    //     }
+    // }
 
-    function markSelectedColumn(selectedColumn) {
-        if (document.querySelectorAll('.selected-column')) {
-            document.querySelectorAll('.selected-column')
-                .forEach((elem) => elem.classList.remove('selected-column'));
-        }
+    // function markSelectedColumn(selectedColumn) {
+    //     if (document.querySelectorAll('.selected-column')) {
+    //         document.querySelectorAll('.selected-column')
+    //             .forEach((elem) => elem.classList.remove('selected-column'));
+    //     }
 
-        if (selectedColumn > document.querySelector('.table').rows[0].cells.length) return;
+    //     if (selectedColumn > document.querySelector('.table').rows[0].cells.length) return;
 
-        if (selectedColumn) {
-            Array.from(document.querySelector('.table').rows).forEach((elem) => {
-                elem.cells[selectedColumn - 1].classList.add('selected-column');
-            });
-        }
-    }
+    //     if (selectedColumn) {
+    //         Array.from(document.querySelector('.table').rows).forEach((elem) => {
+    //             elem.cells[selectedColumn - 1].classList.add('selected-column');
+    //         });
+    //     }
+    // }
 
-    function selectRowColumn() {
-        let selectedRow = null;
-        let selectedColumn = null;
+    // function selectRowColumn() {
+    //     let selectedRow = null;
+    //     let selectedColumn = null;
 
-        if (getNumericValueById('selectedRow')) {
-            selectedRow = getNumericValueById('selectedRow');
-        }
+    //     if (getNumericValueById('selectedRow')) {
+    //         selectedRow = getNumericValueById('selectedRow');
+    //     }
 
-        if (getNumericValueById('selectedColumn')) {
-            selectedColumn = getNumericValueById('selectedColumn');
-        }
+    //     if (getNumericValueById('selectedColumn')) {
+    //         selectedColumn = getNumericValueById('selectedColumn');
+    //     }
 
-        markSelectedRow(selectedRow);
-        markSelectedColumn(selectedColumn);
-    }
+    //     markSelectedRow(selectedRow);
+    //     markSelectedColumn(selectedColumn);
+    // }
 
     function removeValidationErrorStyles() {
         if (document.querySelectorAll('.validationError')) {
@@ -220,14 +250,20 @@
     document.getElementById('numOfRows').addEventListener('input', setPlaceholders);
     document.getElementById('numOfColumns').addEventListener('input', setPlaceholders);
 
-    document.getElementById('numOfRows').addEventListener('input', removeOldTable);
-    document.getElementById('numOfColumns').addEventListener('input', removeOldTable);
+    // document.getElementById('numOfRows').addEventListener('input', removeOldTable);
+    // document.getElementById('numOfColumns').addEventListener('input', removeOldTable);
 
-    document.getElementById('numOfRows').addEventListener('input', addNewTable)
-    document.getElementById('numOfColumns').addEventListener('input', addNewTable)
+    const formFields = getFormFields();
 
-    document.getElementById('selectedRow').addEventListener('input', selectRowColumn);
-    document.getElementById('selectedColumn').addEventListener('input', selectRowColumn);
+    Object.values(formFields).forEach(field => field.addEventListener('keydown', removeOldTable)); 
+
+    // document.getElementById('numOfRows').addEventListener('input', addNewTable)
+    // document.getElementById('numOfColumns').addEventListener('input', addNewTable)
+
+    Object.values(formFields).forEach(field => field.addEventListener('input', addNewTable)); 
+
+    // document.getElementById('selectedRow').addEventListener('input', selectRowColumn);
+    // document.getElementById('selectedColumn').addEventListener('input', selectRowColumn);
 
     listOfFormFieldsNames.forEach((elementId) => {
         document.getElementById(`${elementId}`).addEventListener('keydown', hasClickedForbiddenKey);
