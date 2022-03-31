@@ -114,15 +114,15 @@ form {
 	min-width: 50px;
 }
 
-.bg-red {
+.selected-column {
 	background-color: rgb(255, 0, 0, 0.4);
 }
 
-.bg-green {
+.selected-row {
 	background-color: rgb(0, 128, 0, 0.4);
 }
 
-.bg-blue {
+.selected-row .selected-column {
 	background-color: rgba(0, 0, 255, 0.4);
 	color: white;
 }
