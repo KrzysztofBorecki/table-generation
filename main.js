@@ -52,12 +52,10 @@
 
     function disableSelectingFields() {
         const listOfFormFields = getFormFields();
-        const selectedRowDisableStatus = (listOfFormFields.numOfRows.value > 0) ||
-            (listOfFormFields.selectedRow.value > 0)
-            ? true : false;
-        const selectedColumnDisableStatus = (listOfFormFields.numOfColumns.value > 0) ||
-            (listOfFormFields.selectedColumn.value > 0)
-            ? true : false;
+        const selectedRowDisableStatus = listOfFormFields.numOfRows.value > 0 ||
+            listOfFormFields.selectedRow.value > 0;
+        const selectedColumnDisableStatus = listOfFormFields.numOfColumns.value > 0 ||
+            listOfFormFields.selectedColumn.value > 0;
             
         disableSelectingField(listOfFormFields.selectedRow, !selectedRowDisableStatus);
         disableSelectingField(listOfFormFields.selectedColumn, !selectedColumnDisableStatus);
