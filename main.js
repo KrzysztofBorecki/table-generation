@@ -41,15 +41,15 @@
         selector.setAttribute('placeholder', value);
     }
 
-    function setPlaceholders() {
-        const listOfFormFields = getFormFields();
-        const selectedRowPlaceholder = (listOfFormFields.numOfRows.value > 0) 
-            ? `value 1 - ${listOfFormFields.numOfRows.value}` : 'value > 0';
-        const selectedColumnPlaceholder = (listOfFormFields.numOfColumns.value > 0) 
-            ? `value 1 - ${listOfFormFields.numOfColumns.value}` : 'value > 0';
+    function setPlaceholders(formFields) {
+        const numOfRows = formFields.numOfRows.value;
+        const numOfColumns = formFields.numOfColumns.value;
+        
+        const selectedRowPlaceholder = numOfRows > 0 ? `value 1 - ${numOfRows}` : 'value > 0';
+        const selectedColumnPlaceholder = numOfColumns > 0 ? `value 1 - ${numOfColumns}` : 'value > 0';
 
-        setPlaceholder(listOfFormFields.selectedRow, selectedRowPlaceholder);
-        setPlaceholder(listOfFormFields.selectedColumn, selectedColumnPlaceholder);
+        setPlaceholder(formFields.selectedRow, selectedRowPlaceholder);
+        setPlaceholder(formFields.selectedColumn, selectedColumnPlaceholder);
     } 
 
     function disableSelectingField(selector, value) {
