@@ -246,18 +246,16 @@
     // document.getElementById('numOfRows').addEventListener('input', removeOldTable);
     // document.getElementById('numOfColumns').addEventListener('input', removeOldTable);
 
-    const formFields = getFormFields();
-
-    Object.values(formFields).forEach(field => field.addEventListener('keydown', removeOldTable)); 
-
     // document.getElementById('numOfRows').addEventListener('input', addNewTable)
     // document.getElementById('numOfColumns').addEventListener('input', addNewTable)
-
-    Object.values(formFields).forEach(field => field.addEventListener('input', addNewTable)); 
 
     // document.getElementById('selectedRow').addEventListener('input', selectRowColumn);
     // document.getElementById('selectedColumn').addEventListener('input', selectRowColumn);
 
+    const formFields = getFormFields();
+
+    Object.values(formFields).forEach(field => field.addEventListener('input', removeOldTable)); 
+    Object.values(formFields).forEach(field => field.addEventListener('input', addNewTable)); 
     Object.values(formFields).forEach(field => field.addEventListener('keydown', hasClickedForbiddenKey));
     Object.values(formFields).forEach(field => field.addEventListener('input', disableSelectingFields));   
     Object.values(formFields).forEach(field => field.addEventListener('input', removeValidationErrorStyles));
