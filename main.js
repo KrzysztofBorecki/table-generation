@@ -1,13 +1,6 @@
 'use strict';
 
 (function createTable() {
-    const listOfFormFieldsNames = [
-        'numOfRows', 
-        'numOfColumns', 
-        'selectedRow', 
-        'selectedColumn'
-    ];
-
     function getFormFields() {
         return [
             'numOfRows',
