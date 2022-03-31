@@ -176,7 +176,7 @@
         }
     }
 
-    function selectRowColumnCell() {
+    function selectRowColumn() {
         let selectedRow = null;
         let selectedColumn = null;
 
@@ -190,7 +190,6 @@
 
         markSelectedRow(selectedRow);
         markSelectedColumn(selectedColumn);
-        markSelectedCell(selectedRow, selectedColumn);
     }
 
     function removeValidationErrorStyles() {
@@ -227,8 +226,8 @@
     document.getElementById('numOfRows').addEventListener('input', addNewTable)
     document.getElementById('numOfColumns').addEventListener('input', addNewTable)
 
-    document.getElementById('selectedRow').addEventListener('input', selectRowColumnCell);
-    document.getElementById('selectedColumn').addEventListener('input', selectRowColumnCell);
+    document.getElementById('selectedRow').addEventListener('input', selectRowColumn);
+    document.getElementById('selectedColumn').addEventListener('input', selectRowColumn);
 
     listOfFormFieldsNames.forEach((elementId) => {
         document.getElementById(`${elementId}`).addEventListener('keydown', hasClickedForbiddenKey);
