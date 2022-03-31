@@ -41,7 +41,10 @@
         selector.setAttribute('placeholder', value);
     }
 
-    function setPlaceholders(formFields) {
+    function setPlaceholders() {
+        // tymczasowe - docelowo setPlaceholders(formFields)
+        const formFields = getFormFields();
+        // end
         const numOfRows = formFields.numOfRows.value;
         const numOfColumns = formFields.numOfColumns.value;
         
@@ -50,35 +53,40 @@
 
         setPlaceholder(formFields.selectedRow, selectedRowPlaceholder);
         setPlaceholder(formFields.selectedColumn, selectedColumnPlaceholder);
-    } 
+    }
 
     function disableSelectingField(selector, value) {
         selector.disabled = value;
     }
 
     function disableSelectingFields() {
-        const listOfFormFields = getFormFields();
-        const selectedRowDisableStatus = listOfFormFields.numOfRows.value > 0 ||
-            listOfFormFields.selectedRow.value > 0;
-        const selectedColumnDisableStatus = listOfFormFields.numOfColumns.value > 0 ||
-            listOfFormFields.selectedColumn.value > 0;
+        // tymczasowe - docelowo disableSelectingFields(formFields)
+        const formFields = getFormFields();
+        // end
+        
+        const selectedRowDisableStatus = formFields.numOfRows.value > 0 ||
+            formFields.selectedRow.value > 0;
+        const selectedColumnDisableStatus = formFields.numOfColumns.value > 0 ||
+            formFields.selectedColumn.value > 0;
             
-        disableSelectingField(listOfFormFields.selectedRow, !selectedRowDisableStatus);
-        disableSelectingField(listOfFormFields.selectedColumn, !selectedColumnDisableStatus);
+        disableSelectingField(formFields.selectedRow, !selectedRowDisableStatus);
+        disableSelectingField(formFields.selectedColumn, !selectedColumnDisableStatus);
     } 
 
     function removeOldTable(){
-        const listOfFormFields = getFormFields();
+        // tymczasowe - docelowo removeOldTable(formFields)
+        const formFields = getFormFields();
+        // end
         const tableElement = document.querySelector('.table-container');
 
         if (tableElement) {
             tableElement.remove();
-            listOfFormFields.selectedRow.value = '';
-            listOfFormFields.selectedColumn.value = '';
+            formFields.selectedRow.value = '';
+            formFields.selectedColumn.value = '';
         }
     }
 
-    function createArrayOfTabElem() {
+    function createTableElements() {
         const newTableCont = document.createElement('div');
         const newTable = document.createElement('table');
         const newTBody = document.createElement('tbody');
@@ -134,54 +142,37 @@
         const declaredNumOfColumns = getNumericValueById('numOfColumns');
 
         if (declaredNumOfRows && declaredNumOfColumns) {
-            const arrOfElements = createArrayOfTabElem();
+            const arrOfElements = createTableElements();
             appendTableElements(declaredNumOfRows, declaredNumOfColumns, ...arrOfElements);
             addValues();
         }
     }
 
     function markSelectedRow(selectedRow) {
-        if (document.querySelector('.bg-green')) {
-            document.querySelector('.bg-green').classList.remove('bg-green');
+        if (document.querySelector('.selected-row')) {
+            document.querySelector('.selected-row').classList.remove('selected-row');
         }
 
         if (selectedRow > document.querySelector('.table').rows.length) return;
 
         if (selectedRow) {
             const rowElem = document.querySelector('.table').rows[selectedRow - 1];
-            rowElem.classList.add('bg-green');
+            rowElem.classList.add('selected-row');
         }
     }
 
     function markSelectedColumn(selectedColumn) {
-        if (document.querySelectorAll('.bg-red')) {
-            document.querySelectorAll('.bg-red')
-                .forEach((elem) => elem.classList.remove('bg-red'));
+        if (document.querySelectorAll('.selected-column')) {
+            document.querySelectorAll('.selected-column')
+                .forEach((elem) => elem.classList.remove('selected-column'));
         }
 
         if (selectedColumn > document.querySelector('.table').rows[0].cells.length) return;
 
         if (selectedColumn) {
             Array.from(document.querySelector('.table').rows).forEach((elem) => {
-                elem.cells[selectedColumn - 1].classList.add('bg-red');
+                elem.cells[selectedColumn - 1].classList.add('selected-column');
             });
-        }
-    }
-
-    function markSelectedCell(selectedRow, selectedColumn) {
-        if (document.querySelector('.bg-blue')) {
-            document.querySelector('.bg-blue').classList.remove('bg-blue');
-        }
-
-        if (
-            (selectedRow && selectedColumn) && 
-            !(selectedRow > document.querySelector('.table').rows.length && 
-            selectedColumn > document.querySelector('.table').rows[0].cells.length)
-        ) {
-            document.querySelector('.table')
-                .rows[selectedRow - 1]
-                .cells[selectedColumn - 1]
-                .classList.add('bg-blue');
         }
     }
 
