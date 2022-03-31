@@ -9,13 +9,19 @@
     ];
 
     function getFormFields() {
-        const listOfFormFields = {};
-        
-        listOfFormFieldsNames.forEach((nameOfFormField) => {
-            listOfFormFields[nameOfFormField] = document.getElementById(nameOfFormField)
-        });
-        return listOfFormFields;
+        return [
+            'numOfRows',
+            'numOfColumns',
+            'selectedRow',
+            'selectedColumn'
+        ].reduce((formFields, fieldName) => {
+            formFields[fieldName] = document.getElementById(fieldName);
+            
+            return formFields;
+        }, {});
     }
+
+    const formFields = getFormFields();
 
     function hasClickedForbiddenKey(e) {
         if (
@@ -62,10 +68,13 @@
     } 
 
     function removeOldTable(){
-        if (document.querySelector('.table-container')) {
-            document.querySelector('.table-container').remove();
-            document.getElementById('selectedRow').value = '';
-            document.getElementById('selectedColumn').value = '';
+        const listOfFormFields = getFormFields();
+        const tableElement = document.querySelector('.table-container');
+
+        if (tableElement) {
+            tableElement.remove();
+            listOfFormFields.selectedRow.value = '';
+            listOfFormFields.selectedColumn.value = '';
         }
     }
 
