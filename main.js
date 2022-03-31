@@ -24,7 +24,6 @@
             || ['ArrowLeft', 'ArrowRight', 'Delete', 'Backspace', 'Tab'].includes(e.key)))
         ) {
             e.preventDefault();
-            return true;
         }
     }
 
