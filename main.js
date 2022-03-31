@@ -265,19 +265,8 @@
     // document.getElementById('selectedRow').addEventListener('input', selectRowColumn);
     // document.getElementById('selectedColumn').addEventListener('input', selectRowColumn);
 
-    listOfFormFieldsNames.forEach((elementId) => {
-        document.getElementById(`${elementId}`).addEventListener('keydown', hasClickedForbiddenKey);
-    });
-
-    listOfFormFieldsNames.forEach((elementId) => {
-        document.getElementById(`${elementId}`).addEventListener('input', disableSelectingFields);
-    }); 
-    
-    listOfFormFieldsNames.forEach((elementId) => {
-        document.getElementById(`${elementId}`).addEventListener('input', removeValidationErrorStyles);
-    });
-
-    listOfFormFieldsNames.forEach((elementId) => {
-        document.getElementById(`${elementId}`).addEventListener('input', addValidationErrorStyles);
-    }); 
+    Object.values(formFields).forEach(field => field.addEventListener('keydown', hasClickedForbiddenKey));
+    Object.values(formFields).forEach(field => field.addEventListener('input', disableSelectingFields));   
+    Object.values(formFields).forEach(field => field.addEventListener('input', removeValidationErrorStyles));
+    Object.values(formFields).forEach(field => field.addEventListener('input', addValidationErrorStyles)); 
 })();
