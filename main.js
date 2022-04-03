@@ -3,6 +3,19 @@
 (function createTable() {
     const formFields = getFormFields();
 
+//     function getFormFields() {
+//         return [
+//             'numOfRows',
+//             'numOfColumns',
+//             'selectedRow',
+//             'selectedColumn'
+//         ].reduce((formFields, fieldName) => {
+//             formFields[fieldName] = document.getElementById(fieldName);
+
+//             return formFields;
+//         }, {});
+//     }
+//-----------------------------------------
     function getFormFields() {
         return [
             'numOfRows',
@@ -10,12 +23,17 @@
             'selectedRow',
             'selectedColumn'
         ].reduce((formFields, fieldName) => {
-            formFields[fieldName] = document.getElementById(fieldName);
+            const formField = {}
+
+            formField['element'] = document.getElementById(fieldName)
+            formField['parsedValue'] = parseInt(document.getElementById(fieldName).value);
+            
+            formFields[fieldName] = formField;
 
             return formFields;
         }, {});
     }
-
+//-----------------------------------------
     function hasClickedForbiddenKey(e) {
         if (
             ((e.target.value === '' || e.target.value === '0') && e.key === '0')
@@ -31,8 +49,8 @@
     }
 
     function resetSelectionFields(formFields) {
-        formFields.selectedRow.value = '';
-        formFields.selectedColumn.value = '';
+        formFields.selectedRow.element.value = '';
+        formFields.selectedColumn.element.value = '';
     }
 
     function createTableElements() {
@@ -109,10 +127,10 @@
     }
 
     function addNewTable(formFields) {
-        const declaredNumOfRows = parseInt(formFields.numOfRows.value);
-        const declaredNumOfColumns = parseInt(formFields.numOfColumns.value);
-        const declaredSelectedRow = parseInt(formFields.selectedRow.value);
-        const declaredSelectedColumn = parseInt(formFields.selectedColumn.value);
+        const declaredNumOfRows = formFields.numOfRows.parsedValue;
+        const declaredNumOfColumns = formFields.numOfColumns.parsedValue;
+        const declaredSelectedRow = formFields.selectedRow.parsedValue;
+        const declaredSelectedColumn = formFields.selectedColumn.parsedValue;
         const tableElements = createTableElements();
 
         appendTableElements(
@@ -133,17 +151,17 @@
     }
 
     function addValidationErrorStyles(formFields) {
-        const declaredNumOfRows = parseInt(formFields.numOfRows.value);
-        const declaredNumOfColumns = parseInt(formFields.numOfColumns.value);
-        const declaredSelectedRow = parseInt(formFields.selectedRow.value);
-        const declaredSelectedColumn = parseInt(formFields.selectedColumn.value);
+        const declaredNumOfRows = formFields.numOfRows.parsedValue;
+        const declaredNumOfColumns = formFields.numOfColumns.parsedValue;
+        const declaredSelectedRow = formFields.selectedRow.parsedValue;
+        const declaredSelectedColumn = formFields.selectedColumn.parsedValue;
 
         if (declaredSelectedRow > declaredNumOfRows) {
-            formFields.selectedRow.classList.add('validationError');
+            formFields.selectedRow.element.classList.add('validationError');
         }
 
         if (declaredSelectedColumn > declaredNumOfColumns) {
-            formFields.selectedColumn.classList.add('validationError');
+            formFields.selectedColumn.element.classList.add('validationError');
         }
 
         if (document.querySelector('.validationError')) {
@@ -156,14 +174,14 @@
     }
 
     function setPlaceholders(formFields) {
-        const numOfRows = formFields.numOfRows.value;
-        const numOfColumns = formFields.numOfColumns.value;
+        const numOfRows = formFields.numOfRows.element.value;
+        const numOfColumns = formFields.numOfColumns.element.value;
         
         const selectedRowPlaceholder = numOfRows > 0 ? `value 1 - ${numOfRows}` : 'value > 0';
         const selectedColumnPlaceholder = numOfColumns > 0 ? `value 1 - ${numOfColumns}` : 'value > 0';
 
-        setPlaceholder(formFields.selectedRow, selectedRowPlaceholder);
-        setPlaceholder(formFields.selectedColumn, selectedColumnPlaceholder);
+        setPlaceholder(formFields.selectedRow.element, selectedRowPlaceholder);
+        setPlaceholder(formFields.selectedColumn.element, selectedColumnPlaceholder);
     }
 
     function disableSelectionField(field, value) {
@@ -171,24 +189,24 @@
     }
 
     function disableSelectionFields(formFields) {
-        const declaredNumOfRows = parseInt(formFields.numOfRows.value);
-        const declaredNumOfColumns = parseInt(formFields.numOfColumns.value);
-        const declaredSelectedRow = parseInt(formFields.selectedRow.value);
-        const declaredSelectedColumn = parseInt(formFields.selectedColumn.value);
+        const declaredNumOfRows = formFields.numOfRows.parsedValue;
+        const declaredNumOfColumns = formFields.numOfColumns.parsedValue;
+        const declaredSelectedRow = formFields.selectedRow.parsedValue;
+        const declaredSelectedColumn = formFields.selectedColumn.parsedValue;
 
         const selectedRowDisabledStatus = declaredNumOfRows > 0 || declaredSelectedRow > 0;
         const selectedColumnDisabledStatus = declaredNumOfColumns > 0 || declaredSelectedColumn > 0;
             
-        disableSelectionField(formFields.selectedRow, !selectedRowDisabledStatus);
-        disableSelectionField(formFields.selectedColumn, !selectedColumnDisabledStatus);
+        disableSelectionField(formFields.selectedRow.element, !selectedRowDisabledStatus);
+        disableSelectionField(formFields.selectedColumn.element, !selectedColumnDisabledStatus);
     } 
 
     function handleFormChange() {
         const tableElement = document.querySelector('.table-container');
         const validationErrorElements = document.querySelectorAll('.validationError');
         const formFields = getFormFields();
-        const declaredNumOfRows = parseInt(formFields.numOfRows.value);
-        const declaredNumOfColumns = parseInt(formFields.numOfColumns.value);
+        const declaredNumOfRows = formFields.numOfRows.parsedValue;
+        const declaredNumOfColumns = formFields.numOfColumns.parsedValue;
 
         if (tableElement) removeOldTable(tableElement);
 
@@ -203,6 +221,6 @@
         disableSelectionFields(formFields);
     }
 
-    Object.values(formFields).forEach(field => field.addEventListener('keydown', hasClickedForbiddenKey));
-    Object.values(formFields).forEach(field => field.addEventListener('input', handleFormChange));
+    Object.values(formFields).forEach(field => field.element.addEventListener('keydown', hasClickedForbiddenKey));
+    Object.values(formFields).forEach(field => field.element.addEventListener('input', handleFormChange));
 })();
