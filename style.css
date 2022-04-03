@@ -80,12 +80,13 @@ form {
 
 .validationErrorBox {
 	position: absolute;
-	bottom: -56px;
+	bottom: -90px;
 	left: 0;
 	right: 0;
-	padding: 5px;
+	padding: 20px;
 	background-color: rgba(255, 255, 255, 0.95);;
 	border: 2px solid rgb(255, 0, 0, 0.4);
+	border-radius: 1ch;
 	text-align: center;
 }
 
