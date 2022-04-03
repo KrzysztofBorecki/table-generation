@@ -187,14 +187,14 @@
         const tableElement = document.querySelector('.table-container');
         const validationErrorElements = document.querySelectorAll('.validationError');
         const formFields = getFormFields();
-        const numOfRows = formFields.numOfRows.value;
-        const numOfColumns = formFields.numOfColumns.value;
+        const declaredNumOfRows = parseInt(formFields.numOfRows.value);
+        const declaredNumOfColumns = parseInt(formFields.numOfColumns.value);
 
         if (tableElement) removeOldTable(tableElement);
 
-        if (!(numOfRows || numOfColumns)) resetSelectionFields(formFields);
+        if (!(declaredNumOfRows || declaredNumOfColumns)) resetSelectionFields(formFields);
 
-        if (numOfRows && numOfColumns) addNewTable(formFields);  
+        if (declaredNumOfRows && declaredNumOfColumns) addNewTable(formFields);  
 
         if (validationErrorElements.length) removeValidationErrorStyles(validationErrorElements);
 
