@@ -11,7 +11,7 @@
             'selectedColumn'
         ].reduce((formFields, fieldName) => {
             formFields[fieldName] = document.getElementById(fieldName);
-            
+
             return formFields;
         }, {});
     }
@@ -25,7 +25,7 @@
             e.preventDefault();
         }
     }
-   
+
     function removeOldTable(tableElement){
         tableElement.remove();
     }
@@ -47,7 +47,7 @@
         newTBody.classList = 'table-body'
         newRow.classList = 'table-row';
         newDataCell.classList = 'row-cell';
-        
+
         return [
             newTableCont, 
             newTable, 
@@ -55,7 +55,7 @@
             newRow, 
             newDataCell
         ];
-    }        
+    }
 
     function appendTableElements(
         declaredNumOfRows, 
@@ -79,18 +79,18 @@
 
                 return clonedElement;
             });
-   
+
         newRow.append(...columnElements);
 
         const rowElements = Array(declaredNumOfRows)
             .fill(null)
             .map((_, idx) => {
                 const clonedElement = newRow.cloneNode(true);
-                
+
                 if (declaredSelectedRow && idx === declaredSelectedRow - 1) {
                     clonedElement.classList.add('selected-row');
                 }
-                
+
                 return clonedElement;
             });
 
@@ -105,7 +105,7 @@
             Array.from(row.cells).forEach((cell, colIndex) => {
                 cell.innerHTML = `${rowIndex + 1}${colIndex + 1}`;
             })
-        }); 
+        });
     }
 
     function addNewTable(formFields) {
@@ -116,10 +116,10 @@
         const tableElements = createTableElements();
 
         appendTableElements(
-            declaredNumOfRows, 
-            declaredNumOfColumns, 
-            declaredSelectedRow, 
-            declaredSelectedColumn, 
+            declaredNumOfRows,
+            declaredNumOfColumns,
+            declaredSelectedRow,
+            declaredSelectedColumn,
             ...tableElements
         );
         addValues();
@@ -175,7 +175,7 @@
         const declaredNumOfColumns = parseInt(formFields.numOfColumns.value);
         const declaredSelectedRow = parseInt(formFields.selectedRow.value);
         const declaredSelectedColumn = parseInt(formFields.selectedColumn.value);
-                  
+
         const selectedRowDisabledStatus = declaredNumOfRows > 0 || declaredSelectedRow > 0;
         const selectedColumnDisabledStatus = declaredNumOfColumns > 0 || declaredSelectedColumn > 0;
             
@@ -200,7 +200,7 @@
 
         addValidationErrorStyles(formFields);
         setPlaceholders(formFields);
-        disableSelectionFields(formFields);       
+        disableSelectionFields(formFields);
     }
 
     Object.values(formFields).forEach(field => field.addEventListener('keydown', hasClickedForbiddenKey));
