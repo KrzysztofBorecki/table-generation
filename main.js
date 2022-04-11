@@ -3,19 +3,6 @@
 (function createTable() {
     const formFields = getFormFields();
 
-//     function getFormFields() {
-//         return [
-//             'numOfRows',
-//             'numOfColumns',
-//             'selectedRow',
-//             'selectedColumn'
-//         ].reduce((formFields, fieldName) => {
-//             formFields[fieldName] = document.getElementById(fieldName);
-
-//             return formFields;
-//         }, {});
-//     }
-
     function getFormFields() {
         return [
             'numOfRows',
