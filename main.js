@@ -15,7 +15,7 @@
 //             return formFields;
 //         }, {});
 //     }
-//-----------------------------------------
+
     function getFormFields() {
         return [
             'numOfRows',
@@ -33,7 +33,7 @@
             return formFields;
         }, {});
     }
-//-----------------------------------------
+
     function hasClickedForbiddenKey(e) {
         if (
             ((e.target.value === '' || e.target.value === '0') && e.key === '0')
@@ -210,11 +210,17 @@
 
         if (tableElement) removeOldTable(tableElement);
 
-        if (!(declaredNumOfRows || declaredNumOfColumns)) resetSelectionFields(formFields);
+        if (!(declaredNumOfRows || declaredNumOfColumns)) {
+            resetSelectionFields(formFields);
+        } 
 
-        if (declaredNumOfRows && declaredNumOfColumns) addNewTable(formFields);  
+        if (declaredNumOfRows && declaredNumOfColumns) {
+            addNewTable(formFields);
+        }  
 
-        if (validationErrorElements.length) removeValidationErrorStyles(validationErrorElements);
+        if (validationErrorElements.length) {
+            removeValidationErrorStyles(validationErrorElements);
+        }
 
         addValidationErrorStyles(formFields);
         setPlaceholders(formFields);
