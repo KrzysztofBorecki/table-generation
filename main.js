@@ -42,11 +42,15 @@
 
     function addNewTable(formFields) {
 
+        function addCellValue(rowIdx, colIdx) {
+            return `${rowIdx + 1}${colIdx + 1}`;
+        }
+
         function createDataCell(rowIdx, colIdx){
             const dataCell = document.createElement('td');
 
             dataCell.classList = 'row-cell';  
-            dataCell.innerHTML = `${rowIdx}${colIdx}`;
+            dataCell.innerHTML = addCellValue(rowIdx, colIdx);
 
             return dataCell;
         }
@@ -101,36 +105,32 @@
         }
 
         function createTBody() {
-            const newTBody = document.createElement('tbody');
-            newTBody.classList = 'table-body'
-
             const declaredNumOfRows = formFields.numOfRows.parsedValue;
-            const declaredSelectedRow = formFields.selectedRow.parsedValue;      
-
+            const declaredSelectedRow = formFields.selectedRow.parsedValue;    
             const rowElements = createRows(declaredNumOfRows, declaredSelectedRow);
+            const newTBody = document.createElement('tbody');
 
+            newTBody.classList = 'table-body'
             newTBody.append(...rowElements);
 
             return newTBody;
         }
 
         function createTable() {
-            const newTable = document.createElement('table');
-            newTable.classList = 'table';
-
             const newTBody = createTBody();
+            const newTable = document.createElement('table');
 
+            newTable.classList = 'table';         
             newTable.append(newTBody);
 
             return newTable;
         }
 
         function createTableCont() {
-            const newTableCont = document.createElement('div');
-            newTableCont.classList = 'table-container';
-
             const newTable = createTable();
+            const newTableCont = document.createElement('div');
 
+            newTableCont.classList = 'table-container';
             newTableCont.append(newTable);
 
             return newTableCont;
