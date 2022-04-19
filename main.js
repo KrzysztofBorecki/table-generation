@@ -14,7 +14,7 @@
 
             formField['element'] = document.getElementById(fieldName)
             formField['parsedValue'] = parseInt(document.getElementById(fieldName).value);
-            
+
             formFields[fieldName] = formField;
 
             return formFields;
@@ -41,7 +41,6 @@
     }
 
     function addNewTable(formFields) {
-
         function addCellValue(rowIdx, colIdx) {
             return `${rowIdx + 1}${colIdx + 1}`;
         }
@@ -49,7 +48,7 @@
         function createDataCell(rowIdx, colIdx){
             const dataCell = document.createElement('td');
 
-            dataCell.classList = 'row-cell';  
+            dataCell.classList = 'row-cell'; 
             dataCell.innerHTML = addCellValue(rowIdx, colIdx);
 
             return dataCell;
@@ -72,21 +71,21 @@
             });
 
             return rowElement;
-        }       
+        } 
 
         function createRows(){
             const declaredNumOfRows = formFields.numOfRows.parsedValue;
-            const declaredSelectedRow = formFields.selectedRow.parsedValue;  
+            const declaredSelectedRow = formFields.selectedRow.parsedValue;
 
             const rowElements = Array(declaredNumOfRows)
             .fill(null)
-            .map((_, rowIdx) => {         
+            .map((_, rowIdx) => { 
                 const newRow = document.createElement('tr');
                 newRow.classList = 'table-row';
 
                 const rowElement = createRow(rowIdx);
                 newRow.append(...rowElement);
-                
+
                 const clonedElement = newRow.cloneNode(true);
 
                 if (declaredSelectedRow && rowIdx === declaredSelectedRow - 1) {
@@ -99,7 +98,7 @@
             return rowElements;
         }
 
-        function createTBody() {  
+        function createTBody() {
             const rowElements = createRows();
             const newTBody = document.createElement('tbody');
 
@@ -113,7 +112,7 @@
             const newTBody = createTBody();
             const newTable = document.createElement('table');
 
-            newTable.classList = 'table';         
+            newTable.classList = 'table';
             newTable.append(newTBody);
 
             return newTable;
@@ -171,7 +170,7 @@
     function setPlaceholders(formFields) {
         const numOfRows = formFields.numOfRows.element.value;
         const numOfColumns = formFields.numOfColumns.element.value;
-        
+
         const selectedRowPlaceholder = numOfRows > 0 ? `value 1 - ${numOfRows}` : 'value > 0';
         const selectedColumnPlaceholder = numOfColumns > 0 ? `value 1 - ${numOfColumns}` : 'value > 0';
 
@@ -191,7 +190,7 @@
 
         const selectedRowDisabledStatus = declaredNumOfRows > 0 || declaredSelectedRow > 0;
         const selectedColumnDisabledStatus = declaredNumOfColumns > 0 || declaredSelectedColumn > 0;
-            
+
         disableSelectionField(formFields.selectedRow.element, !selectedRowDisabledStatus);
         disableSelectionField(formFields.selectedColumn.element, !selectedColumnDisabledStatus);
     } 
