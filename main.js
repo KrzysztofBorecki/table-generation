@@ -31,103 +31,118 @@
         }
     }
 
-    function removeOldTable(tableElement){
+    function removeElement(tableElement){
         tableElement.remove();
     }
 
-    function resetSelectionFields(formFields) {
-        formFields.selectedRow.element.value = '';
-        formFields.selectedColumn.element.value = '';
+    function resetFields() {
+        const selectionFields = [formFields.selectedRow, formFields.selectedColumn];
+        selectionFields.forEach(field => field.value = '');
     }
 
-    function createTableElements() {
-        const newTableCont = document.createElement('div');
-        const newTable = document.createElement('table');
-        const newTBody = document.createElement('tbody');
-        const newRow = document.createElement('tr');
-        const newDataCell = document.createElement('td');
+    function addNewTable(formFields) {
 
-        newTableCont.classList = 'table-container';
-        newTable.classList = 'table';
-        newTBody.classList = 'table-body'
-        newRow.classList = 'table-row';
-        newDataCell.classList = 'row-cell';
+        function createDataCell(rowIdx, colIdx){
+            const dataCell = document.createElement('td');
 
-        return [
-            newTableCont, 
-            newTable, 
-            newTBody, 
-            newRow, 
-            newDataCell
-        ];
-    }
+            dataCell.classList = 'row-cell';  
+            dataCell.innerHTML = `${rowIdx}${colIdx}`;
 
-    function appendTableElements(
-        declaredNumOfRows, 
-        declaredNumOfColumns,
-        declaredSelectedRow,
-        declaredSelectedColumn, 
-        newTableCont, 
-        newTable, 
-        newTBody, 
-        newRow, 
-        newDataCell
-    ) {
-        const columnElements = Array(declaredNumOfColumns)
+            return dataCell;
+        }
+
+        function createRow(
+            declaredNumOfColumns, 
+            declaredSelectedColumn, 
+            rowIdx
+        ) {
+            const rowElement = Array(declaredNumOfColumns)
             .fill(null)
-            .map((_, idx) => {
-                const clonedElement = newDataCell.cloneNode();
+            .map((_, colIdx) => {
+                const dataCell = createDataCell(rowIdx, colIdx);
 
-                if (declaredSelectedColumn && idx === declaredSelectedColumn - 1) {
-                    clonedElement.classList.add('selected-column');
+                if (declaredSelectedColumn && colIdx === declaredSelectedColumn - 1) {
+                    dataCell.classList.add('selected-column');
                 }
 
-                return clonedElement;
+                return dataCell;
             });
 
-        newRow.append(...columnElements);
+            return rowElement;
+        }       
 
-        const rowElements = Array(declaredNumOfRows)
+        function createRows(declaredNumOfRows, declaredSelectedRow){
+            const declaredNumOfColumns = formFields.numOfColumns.parsedValue;
+            const declaredSelectedColumn = formFields.selectedColumn.parsedValue;
+
+            const rowElements = Array(declaredNumOfRows)
             .fill(null)
-            .map((_, idx) => {
+            .map((_, rowIdx) => {         
+                const newRow = document.createElement('tr');
+                newRow.classList = 'table-row';
+
+                const rowElement = createRow(
+                    declaredNumOfColumns, 
+                    declaredSelectedColumn, 
+                    rowIdx
+                );
+                newRow.append(...rowElement);
+                
                 const clonedElement = newRow.cloneNode(true);
 
-                if (declaredSelectedRow && idx === declaredSelectedRow - 1) {
+                if (declaredSelectedRow && rowIdx === declaredSelectedRow - 1) {
                     clonedElement.classList.add('selected-row');
                 }
 
                 return clonedElement;
             });
 
-        newTBody.append(...rowElements);
-        newTable.append(newTBody);
-        newTableCont.append(newTable);
-        document.querySelector('section').append(newTableCont);
-    }
+            return rowElements;
+        }
 
-    function addValues() {
-        Array.from(document.querySelector('.table').rows).forEach((row, rowIndex) => {
-            Array.from(row.cells).forEach((cell, colIndex) => {
-                cell.innerHTML = `${rowIndex + 1}${colIndex + 1}`;
-            })
-        });
-    }
+        function createTBody() {
+            const newTBody = document.createElement('tbody');
+            newTBody.classList = 'table-body'
 
-    function addNewTable(formFields) {
-        const declaredNumOfRows = formFields.numOfRows.parsedValue;
-        const declaredNumOfColumns = formFields.numOfColumns.parsedValue;
-        const declaredSelectedRow = formFields.selectedRow.parsedValue;
-        const declaredSelectedColumn = formFields.selectedColumn.parsedValue;
-        const tableElements = createTableElements();
+            const declaredNumOfRows = formFields.numOfRows.parsedValue;
+            const declaredSelectedRow = formFields.selectedRow.parsedValue;      
 
-        appendTableElements(
-            declaredNumOfRows,
-            declaredNumOfColumns,
-            declaredSelectedRow,
-            declaredSelectedColumn,
-            ...tableElements
-        );
-        addValues();
+            const rowElements = createRows(declaredNumOfRows, declaredSelectedRow);
+
+            newTBody.append(...rowElements);
+
+            return newTBody;
+        }
+
+        function createTable() {
+            const newTable = document.createElement('table');
+            newTable.classList = 'table';
+
+            const newTBody = createTBody();
+
+            newTable.append(newTBody);
+
+            return newTable;
+        }
+
+        function createTableCont() {
+            const newTableCont = document.createElement('div');
+            newTableCont.classList = 'table-container';
+
+            const newTable = createTable();
+
+            newTableCont.append(newTable);
+
+            return newTableCont;
+        }
+
+        function appendTable() {
+            const newTableCont = createTableCont();
+
+            document.querySelector('section').append(newTableCont);
+        }
+
+        appendTable();
     }
 
     function removeValidationErrorStyles(validationErrorElements) {
@@ -195,10 +210,10 @@
         const declaredNumOfRows = formFields.numOfRows.parsedValue;
         const declaredNumOfColumns = formFields.numOfColumns.parsedValue;
 
-        if (tableElement) removeOldTable(tableElement);
+        if (tableElement) removeElement(tableElement);
 
         if (!(declaredNumOfRows || declaredNumOfColumns)) {
-            resetSelectionFields(formFields);
+            resetFields();
         } 
 
         if (declaredNumOfRows && declaredNumOfColumns) {
