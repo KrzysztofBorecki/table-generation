@@ -55,11 +55,10 @@
             return dataCell;
         }
 
-        function createRow(
-            declaredNumOfColumns, 
-            declaredSelectedColumn, 
-            rowIdx
-        ) {
+        function createRow(rowIdx) {
+            const declaredNumOfColumns = formFields.numOfColumns.parsedValue;
+            const declaredSelectedColumn = formFields.selectedColumn.parsedValue;
+
             const rowElement = Array(declaredNumOfColumns)
             .fill(null)
             .map((_, colIdx) => {
@@ -75,9 +74,9 @@
             return rowElement;
         }       
 
-        function createRows(declaredNumOfRows, declaredSelectedRow){
-            const declaredNumOfColumns = formFields.numOfColumns.parsedValue;
-            const declaredSelectedColumn = formFields.selectedColumn.parsedValue;
+        function createRows(){
+            const declaredNumOfRows = formFields.numOfRows.parsedValue;
+            const declaredSelectedRow = formFields.selectedRow.parsedValue;  
 
             const rowElements = Array(declaredNumOfRows)
             .fill(null)
@@ -85,11 +84,7 @@
                 const newRow = document.createElement('tr');
                 newRow.classList = 'table-row';
 
-                const rowElement = createRow(
-                    declaredNumOfColumns, 
-                    declaredSelectedColumn, 
-                    rowIdx
-                );
+                const rowElement = createRow(rowIdx);
                 newRow.append(...rowElement);
                 
                 const clonedElement = newRow.cloneNode(true);
@@ -104,10 +99,8 @@
             return rowElements;
         }
 
-        function createTBody() {
-            const declaredNumOfRows = formFields.numOfRows.parsedValue;
-            const declaredSelectedRow = formFields.selectedRow.parsedValue;    
-            const rowElements = createRows(declaredNumOfRows, declaredSelectedRow);
+        function createTBody() {  
+            const rowElements = createRows();
             const newTBody = document.createElement('tbody');
 
             newTBody.classList = 'table-body'
