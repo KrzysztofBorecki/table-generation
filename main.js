@@ -10,10 +10,10 @@
             'selectedRow',
             'selectedColumn'
         ].reduce((formFields, fieldName) => {
-            const formField = {}
+            const formField = {};
 
-            formField['element'] = document.getElementById(fieldName)
-            formField['parsedValue'] = parseInt(document.getElementById(fieldName).value);
+            formField.element = document.getElementById(fieldName);
+            formField.parsedValue = parseInt(document.getElementById(fieldName).value);
 
             formFields[fieldName] = formField;
 
@@ -31,7 +31,7 @@
         }
     }
 
-    function removeElement(tableElement){
+    function removeElement(tableElement) {
         tableElement.remove();
     }
 
@@ -45,7 +45,7 @@
             return `${rowIdx + 1}${colIdx + 1}`;
         }
 
-        function createDataCell(rowIdx, colIdx){
+        function createDataCell(rowIdx, colIdx) {
             const dataCell = document.createElement('td');
 
             dataCell.classList = 'row-cell'; 
@@ -73,7 +73,7 @@
             return rowElement;
         } 
 
-        function createRows(){
+        function createRows() {
             const declaredNumOfRows = formFields.numOfRows.parsedValue;
             const declaredSelectedRow = formFields.selectedRow.parsedValue;
 
@@ -102,7 +102,7 @@
             const rowElements = createRows();
             const newTBody = document.createElement('tbody');
 
-            newTBody.classList = 'table-body'
+            newTBody.classList = 'table-body';
             newTBody.append(...rowElements);
 
             return newTBody;
