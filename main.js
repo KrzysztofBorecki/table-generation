@@ -37,6 +37,7 @@
 
     function resetFields() {
         const selectionFields = [formFields.selectedRow, formFields.selectedColumn];
+        
         selectionFields.forEach(field => field.value = '');
     }
 
