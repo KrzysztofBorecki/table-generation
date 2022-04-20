@@ -202,7 +202,9 @@
         const declaredNumOfRows = formFields.numOfRows.parsedValue;
         const declaredNumOfColumns = formFields.numOfColumns.parsedValue;
 
-        if (tableElement) removeElement(tableElement);
+        if (tableElement) {
+            removeElement(tableElement);
+        }
 
         if (!(declaredNumOfRows || declaredNumOfColumns)) {
             resetFields();
