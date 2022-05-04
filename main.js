@@ -37,7 +37,7 @@
 
     function resetFields() {
         const selectionFields = [formFields.selectedRow, formFields.selectedColumn];
-        
+
         selectionFields.forEach(field => field.value = '');
     }
 
@@ -60,16 +60,16 @@
             const declaredSelectedColumn = formFields.selectedColumn.parsedValue;
 
             const rowElement = Array(declaredNumOfColumns)
-            .fill(null)
-            .map((_, colIdx) => {
-                const dataCell = createDataCell(rowIdx, colIdx);
+                .fill(null)
+                .map((_, colIdx) => {
+                    const dataCell = createDataCell(rowIdx, colIdx);
 
-                if (declaredSelectedColumn && colIdx === declaredSelectedColumn - 1) {
-                    dataCell.classList.add('selected-column');
-                }
+                    if (declaredSelectedColumn && colIdx === declaredSelectedColumn - 1) {
+                        dataCell.classList.add('selected-column');
+                    }
 
-                return dataCell;
-            });
+                    return dataCell;
+                });
 
             return rowElement;
         } 
@@ -79,22 +79,22 @@
             const declaredSelectedRow = formFields.selectedRow.parsedValue;
 
             const rowElements = Array(declaredNumOfRows)
-            .fill(null)
-            .map((_, rowIdx) => { 
-                const newRow = document.createElement('tr');
-                newRow.classList = 'table-row';
+                .fill(null)
+                .map((_, rowIdx) => {
+                    const newRow = document.createElement('tr');
+                    newRow.classList = 'table-row';
 
-                const rowElement = createRow(rowIdx);
-                newRow.append(...rowElement);
+                    const rowElement = createRow(rowIdx);
+                    newRow.append(...rowElement);
 
-                const clonedElement = newRow.cloneNode(true);
+                    const clonedElement = newRow.cloneNode(true);
 
-                if (declaredSelectedRow && rowIdx === declaredSelectedRow - 1) {
-                    clonedElement.classList.add('selected-row');
-                }
+                    if (declaredSelectedRow && rowIdx === declaredSelectedRow - 1) {
+                        clonedElement.classList.add('selected-row');
+                    }
 
-                return clonedElement;
-            });
+                    return clonedElement;
+                });
 
             return rowElements;
         }
