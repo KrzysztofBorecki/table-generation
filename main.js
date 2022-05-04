@@ -31,8 +31,8 @@
         }
     }
 
-    function removeElement(tableElement) {
-        tableElement.remove();
+    function removeElement(element) {
+        element.remove();
     }
 
     function resetFields() {
