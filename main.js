@@ -42,7 +42,7 @@
     }
 
     function addNewTable(formFields) {
-        function addCellValue(rowIdx, colIdx) {
+        function createCellValue(rowIdx, colIdx) {
             return `${rowIdx + 1}${colIdx + 1}`;
         }
 
@@ -50,7 +50,7 @@
             const dataCell = document.createElement('td');
 
             dataCell.classList = 'row-cell'; 
-            dataCell.innerHTML = addCellValue(rowIdx, colIdx);
+            dataCell.innerHTML = createCellValue(rowIdx, colIdx);
 
             return dataCell;
         }
