@@ -65,7 +65,6 @@
     }
 
     function resetFields(...selectionFields) {
-        console.log(selectionFields);
         selectionFields.forEach(field => field.value = '');
     }
 
