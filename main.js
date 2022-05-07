@@ -75,7 +75,7 @@
     function createTableCell(rowIdx, colIdx) {
         const tableCell = document.createElement('td');
 
-        tableCell.classList = TABLE_CELL_CLASS; 
+        tableCell.classList.add(TABLE_CELL_CLASS); 
         tableCell.innerHTML = createCellValue(rowIdx, colIdx);
 
         return tableCell;
@@ -122,7 +122,7 @@
         const tableRows = createTableRows(numberOfRows, numberOfColumns, selectedRow, selectedColumn);
         const tableBody = document.createElement('tbody');
 
-        tableBody.classList = TABLE_BODY_CLASS;
+        tableBody.classList.add(TABLE_BODY_CLASS);
         tableBody.append(...tableRows);
 
         return tableBody;
@@ -132,7 +132,7 @@
         const tableBody = createTableBody(numberOfRows, numberOfColumns, selectedRow, selectedColumn);
         const table = document.createElement('table');
 
-        table.classList = TABLE_CLASS;
+        table.classList.add(TABLE_CLASS);
         table.append(tableBody);
 
         return table;
@@ -142,7 +142,7 @@
         const table = createTable(numberOfRows, numberOfColumns, selectedRow, selectedColumn);
         const tableContainer = document.createElement('div');
 
-        tableContainer.classList = TABLE_CONTAINER_CLASS;
+        tableContainer.classList.add(TABLE_CONTAINER_CLASS);
         tableContainer.append(table);
 
         return tableContainer;
