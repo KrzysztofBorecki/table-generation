@@ -28,13 +28,21 @@
         }).join('');
     }
 
+    function getFormFieldElement(fieldName) {
+        return document.getElementById(fieldName)
+    }
+
+    function getFormFieldParsedValue(fieldName) {
+        return parseInt(document.getElementById(fieldName).value);
+    }
+
     function getFormFields() {
         return FORM_FIELDS.reduce((formFields, fieldName) => {
             const formField = {};
             const parsedFieldName = getParsedFieldName(fieldName);
 
-            formField.element = document.getElementById(fieldName);
-            formField.parsedValue = parseInt(document.getElementById(fieldName).value);
+            formField.element = getFormFieldElement(fieldName);
+            formField.parsedValue = getFormFieldParsedValue(fieldName);
 
             formFields[parsedFieldName] = formField;
 
