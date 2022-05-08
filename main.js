@@ -202,7 +202,7 @@
         const selectedColumn = formFields.selectedColumn.parsedValue;
         const selectedRowElement = formFields.selectedRow.element;
         const selectedColumnElement = formFields.selectedColumn.element;
-        
+
         if (table) {
             removeElement(table);
         }
