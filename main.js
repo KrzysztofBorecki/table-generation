@@ -170,11 +170,11 @@
             selectedRow, selectedColumn, 
             selectedRowElement, selectedColumnElement
         ) {
-        if (!numberOfRows || selectedRow > numberOfRows) {
+        if (selectedRow > numberOfRows) {
             selectedRowElement.classList.add(ERROR_VALIDATION_CLASS);
         }
 
-        if (!numberOfColumns || selectedColumn > numberOfColumns) {
+        if (selectedColumn > numberOfColumns) {
             selectedColumnElement.classList.add(ERROR_VALIDATION_CLASS);
         }
 
@@ -198,21 +198,21 @@
         setPlaceholder(selectedColumnElement, selectedColumnPlaceholder);
     }
 
-    function disableSelectionField(field, value) {
-        field.disabled = value;
-    }
+    // function disableSelectionField(field, value) {
+    //     field.disabled = value;
+    // }
 
-    function disableSelectionFields(
-            numberOfRows, numberOfColumns, 
-            selectedRow, selectedColumn, 
-            selectedRowElement, selectedColumnElement
-        ) {
-        const selectedRowDisabledStatus = numberOfRows > 0 || selectedRow > 0;
-        const selectedColumnDisabledStatus = numberOfColumns > 0 || selectedColumn > 0;
+    // function disableSelectionFields(
+    //         numberOfRows, numberOfColumns, 
+    //         selectedRow, selectedColumn, 
+    //         selectedRowElement, selectedColumnElement
+    //     ) {
+    //     const selectedRowDisabledStatus = numberOfRows > 0 || selectedRow > 0;
+    //     const selectedColumnDisabledStatus = numberOfColumns > 0 || selectedColumn > 0;
 
-        disableSelectionField(selectedRowElement, !selectedRowDisabledStatus);
-        disableSelectionField(selectedColumnElement, !selectedColumnDisabledStatus);
-    } 
+    //     disableSelectionField(selectedRowElement, !selectedRowDisabledStatus);
+    //     disableSelectionField(selectedColumnElement, !selectedColumnDisabledStatus);
+    // } 
 
     function handleFormChange() {
         const table = document.querySelector(`.${TABLE_CONTAINER_CLASS}`);
@@ -255,13 +255,22 @@
             selectedRowElement, selectedColumnElement
         );
 
-        disableSelectionFields(
-            numberOfRows, numberOfColumns, 
-            selectedRow, selectedColumn, 
-            selectedRowElement, selectedColumnElement
-        );
+        // disableSelectionFields(
+        //     numberOfRows, numberOfColumns, 
+        //     selectedRow, selectedColumn, 
+        //     selectedRowElement, selectedColumnElement
+        // );
     }
 
-    Object.values(formFields).forEach(field => field.element.addEventListener('keydown', hasClickedForbiddenKey));
-    Object.values(formFields).forEach(field => field.element.addEventListener('input', handleFormChange));
+    function getFormFieldElements() {
+        return FORM_FIELDS.map((fieldName) => {
+            return getFormFieldElement(fieldName);
+        });
+    }
+
+    const formFieldElements = getFormFieldElements()
+    formFieldElements.forEach((fieldElement) => {
+        fieldElement.addEventListener('keydown', hasClickedForbiddenKey);
+        fieldElement.addEventListener('input', handleFormChange);
+    });
 })();
