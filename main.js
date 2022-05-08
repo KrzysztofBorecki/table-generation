@@ -18,8 +18,6 @@
     const FORM_FIELDS = [NUMBER_OF_ROWS_FIELD_ID, NUMBER_OF_COLUMNS_FIELD_ID, SELECTED_ROW_FIELD_ID, SELECTED_COLUMN_FIELD_ID];
     const FORBIDDEN_KEYS = ['ArrowLeft', 'ArrowRight', 'Delete', 'Backspace', 'Tab'];
 
-    const formFieldElements = getFormFieldElements();
-
     function getParsedFieldName(fieldName) {
         return fieldName.split('-').map((word, idx) => {
             if (!idx) return word;
@@ -30,12 +28,6 @@
 
     function getFormFieldElement(fieldName) {
         return document.getElementById(fieldName);
-    }
-
-    function getFormFieldElements() {
-        return FORM_FIELDS.map((fieldName) => {
-            return getFormFieldElement(fieldName);
-        });
     }
 
     function getFormFieldParsedValue(fieldName) {
@@ -238,7 +230,9 @@
         );
     }
 
-    formFieldElements.forEach((fieldElement) => {
+    FORM_FIELDS.forEach((fieldElementName) => {
+        const fieldElement = getFormFieldElement(fieldElementName);
+
         fieldElement.addEventListener('keydown', hasClickedForbiddenKey);
         fieldElement.addEventListener('input', handleFormChange);
     });
