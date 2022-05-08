@@ -18,29 +18,29 @@
     const FORM_FIELDS = [NUMBER_OF_ROWS_FIELD_ID, NUMBER_OF_COLUMNS_FIELD_ID, SELECTED_ROW_FIELD_ID, SELECTED_COLUMN_FIELD_ID];
     const FORBIDDEN_KEYS = ['ArrowLeft', 'ArrowRight', 'Delete', 'Backspace', 'Tab'];
 
-    function getParsedFieldName(fieldName) {
-        return fieldName.split('-').map((word, idx) => {
+    function getParsedFormFieldName(formFieldName) {
+        return formFieldName.split('-').map((word, idx) => {
             if (!idx) return word;
 
             return `${word[0].toUpperCase()}${word.slice(1)}`;
         }).join('');
     }
 
-    function getFormFieldElement(fieldName) {
-        return document.getElementById(fieldName);
+    function getFormFieldElement(formFieldName) {
+        return document.getElementById(formFieldName);
     }
 
-    function getFormFieldParsedValue(fieldName) {
-        return parseInt(document.getElementById(fieldName).value);
+    function getFormFieldParsedValue(formFieldName) {
+        return parseInt(document.getElementById(formFieldName).value);
     }
 
     function getFormFields() {
-        return FORM_FIELDS.reduce((formFields, fieldName) => {
+        return FORM_FIELDS.reduce((formFields, formFieldName) => {
             const formField = {};
-            const parsedFieldName = getParsedFieldName(fieldName);
+            const parsedFieldName = getParsedFormFieldName(formFieldName);
 
-            formField.element = getFormFieldElement(fieldName);
-            formField.parsedValue = getFormFieldParsedValue(fieldName);
+            formField.element = getFormFieldElement(formFieldName);
+            formField.parsedValue = getFormFieldParsedValue(formFieldName);
 
             formFields[parsedFieldName] = formField;
 
@@ -152,8 +152,8 @@
         appendTable(numberOfRows, numberOfColumns, selectedRow, selectedColumn);
     }
 
-    function removeValidationErrorStyles(validationErrorFields) {
-        Array.from(validationErrorFields)
+    function removeValidationErrorStyles(validationErrorFormFields) {
+        Array.from(validationErrorFormFields)
             .forEach((field) => field.classList.remove(ERROR_VALIDATION_CLASS));
 
         document.querySelector(`.${ERROR_BOX_VALIDATION_CLASS}`).classList.add(HIDDEN_CLASS);
@@ -194,7 +194,7 @@
 
     function handleFormChange() {
         const table = document.querySelector(`.${TABLE_CONTAINER_CLASS}`);
-        const validationErrorFields = document.querySelectorAll(`.${ERROR_VALIDATION_CLASS}`);
+        const validationErrorFormFields = document.querySelectorAll(`.${ERROR_VALIDATION_CLASS}`);
         const formFields = getFormFields();
         const numberOfRows = formFields.numberOfRows.parsedValue;
         const numberOfColumns = formFields.numberOfColumns.parsedValue;
@@ -214,8 +214,8 @@
             );
         }
 
-        if (validationErrorFields.length) {
-            removeValidationErrorStyles(validationErrorFields);
+        if (validationErrorFormFields.length) {
+            removeValidationErrorStyles(validationErrorFormFields);
         }
 
         addValidationErrorStyles(
@@ -230,10 +230,10 @@
         );
     }
 
-    FORM_FIELDS.forEach((fieldElementName) => {
-        const fieldElement = getFormFieldElement(fieldElementName);
+    FORM_FIELDS.forEach((formFieldElementName) => {
+        const formFieldElement = getFormFieldElement(formFieldElementName);
 
-        fieldElement.addEventListener('keydown', hasClickedForbiddenKey);
-        fieldElement.addEventListener('input', handleFormChange);
+        formFieldElement.addEventListener('keydown', hasClickedForbiddenKey);
+        formFieldElement.addEventListener('input', handleFormChange);
     });
 })();
