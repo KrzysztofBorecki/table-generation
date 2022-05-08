@@ -37,7 +37,7 @@ section {
 	box-shadow: 11px 11px 22px -9px rgba(201, 208, 215, 1);
 }
 
-.formContainer {
+.form-container {
 	max-width: 600px;
 	position: relative;
 }
@@ -51,14 +51,14 @@ form {
 	
 }
 
-.inputContainer {
+.input-container {
 	display: flex;
 	justify-content: space-between;
 	padding: 5px;
 	min-width: 240px;
 }
 
-.inputContainer input {
+.input-container input {
 	width: 14ch;
 	font-size: 16px;
 	font-family: Calibri, Arial, Helvetica, sans-serif;
@@ -74,11 +74,11 @@ form {
 		inset 5px 5px 10px -9px rgba(201, 208, 215, 0.4);
 }
 
-.inputContainer input.validationError {
+.input-container input.validation-error {
 	background-color: rgb(255, 0, 0, 0.4);
 }
 
-.validationErrorBox {
+.validation-error-box {
 	position: absolute;
 	bottom: -90px;
 	left: 0;
