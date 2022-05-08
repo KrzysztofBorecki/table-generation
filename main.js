@@ -9,8 +9,8 @@
     const TABLE_CLASS = 'table';
     const SECTION_CLASS = 'section';
     const HIDDEN_CLASS = 'hidden';
-    const ERROR_VALIDATION_CLASS = 'validationError';
-    const ERROR_BOX_VALIDATION_CLASS = 'validationErrorBox';
+    const ERROR_VALIDATION_CLASS = 'validation-error';
+    const ERROR_BOX_VALIDATION_CLASS = 'validation-error-box';
     const NUMBER_OF_ROWS_FIELD_ID = 'number-of-rows';
     const NUMBER_OF_COLUMNS_FIELD_ID = 'number-of-columns';
     const SELECTED_ROW_FIELD_ID = 'selected-row';
@@ -64,9 +64,9 @@
         element.remove();
     }
 
-    function resetFields(...selectionFields) {
-        selectionFields.forEach(field => field.value = '');
-    }
+    // function resetFields(...selectionFields) {
+    //     selectionFields.forEach(field => field.value = '');
+    // }
 
     function createCellValue(rowIdx, colIdx) {
         return `${rowIdx + 1}${colIdx + 1}`;
@@ -170,11 +170,11 @@
             selectedRow, selectedColumn, 
             selectedRowElement, selectedColumnElement
         ) {
-        if (selectedRow > numberOfRows) {
+        if (!numberOfRows || selectedRow > numberOfRows) {
             selectedRowElement.classList.add(ERROR_VALIDATION_CLASS);
         }
 
-        if (selectedColumn > numberOfColumns) {
+        if (!numberOfColumns || selectedColumn > numberOfColumns) {
             selectedColumnElement.classList.add(ERROR_VALIDATION_CLASS);
         }
 
@@ -229,9 +229,9 @@
             removeElement(table);
         }
 
-        if (!(numberOfRows || numberOfColumns)) {
-            resetFields(selectedRowElement, selectedColumnElement);
-        } 
+        // if (!(numberOfRows || numberOfColumns)) {
+        //     resetFields(selectedRowElement, selectedColumnElement);
+        // } 
 
         if (numberOfRows && numberOfColumns) {
             addTable(
