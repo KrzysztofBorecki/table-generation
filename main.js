@@ -18,7 +18,7 @@
     const FORM_FIELDS = [NUMBER_OF_ROWS_FIELD_ID, NUMBER_OF_COLUMNS_FIELD_ID, SELECTED_ROW_FIELD_ID, SELECTED_COLUMN_FIELD_ID];
     const FORBIDDEN_KEYS = ['ArrowLeft', 'ArrowRight', 'Delete', 'Backspace', 'Tab'];
 
-    const formFields = getFormFields();
+    const formFieldElements = getFormFieldElements();
 
     function getParsedFieldName(fieldName) {
         return fieldName.split('-').map((word, idx) => {
@@ -29,7 +29,13 @@
     }
 
     function getFormFieldElement(fieldName) {
-        return document.getElementById(fieldName)
+        return document.getElementById(fieldName);
+    }
+
+    function getFormFieldElements() {
+        return FORM_FIELDS.map((fieldName) => {
+            return getFormFieldElement(fieldName);
+        });
     }
 
     function getFormFieldParsedValue(fieldName) {
@@ -63,10 +69,6 @@
     function removeElement(element) {
         element.remove();
     }
-
-    // function resetFields(...selectionFields) {
-    //     selectionFields.forEach(field => field.value = '');
-    // }
 
     function createCellValue(rowIdx, colIdx) {
         return `${rowIdx + 1}${colIdx + 1}`;
@@ -198,22 +200,6 @@
         setPlaceholder(selectedColumnElement, selectedColumnPlaceholder);
     }
 
-    // function disableSelectionField(field, value) {
-    //     field.disabled = value;
-    // }
-
-    // function disableSelectionFields(
-    //         numberOfRows, numberOfColumns, 
-    //         selectedRow, selectedColumn, 
-    //         selectedRowElement, selectedColumnElement
-    //     ) {
-    //     const selectedRowDisabledStatus = numberOfRows > 0 || selectedRow > 0;
-    //     const selectedColumnDisabledStatus = numberOfColumns > 0 || selectedColumn > 0;
-
-    //     disableSelectionField(selectedRowElement, !selectedRowDisabledStatus);
-    //     disableSelectionField(selectedColumnElement, !selectedColumnDisabledStatus);
-    // } 
-
     function handleFormChange() {
         const table = document.querySelector(`.${TABLE_CONTAINER_CLASS}`);
         const validationErrorFields = document.querySelectorAll(`.${ERROR_VALIDATION_CLASS}`);
@@ -228,10 +214,6 @@
         if (table) {
             removeElement(table);
         }
-
-        // if (!(numberOfRows || numberOfColumns)) {
-        //     resetFields(selectedRowElement, selectedColumnElement);
-        // } 
 
         if (numberOfRows && numberOfColumns) {
             addTable(
@@ -254,21 +236,8 @@
             numberOfRows, numberOfColumns, 
             selectedRowElement, selectedColumnElement
         );
-
-        // disableSelectionFields(
-        //     numberOfRows, numberOfColumns, 
-        //     selectedRow, selectedColumn, 
-        //     selectedRowElement, selectedColumnElement
-        // );
     }
 
-    function getFormFieldElements() {
-        return FORM_FIELDS.map((fieldName) => {
-            return getFormFieldElement(fieldName);
-        });
-    }
-
-    const formFieldElements = getFormFieldElements()
     formFieldElements.forEach((fieldElement) => {
         fieldElement.addEventListener('keydown', hasClickedForbiddenKey);
         fieldElement.addEventListener('input', handleFormChange);
