@@ -154,7 +154,7 @@
 
     function removeValidationErrorStyles(validationErrorFormFields) {
         Array.from(validationErrorFormFields)
-            .forEach((field) => field.classList.remove(ERROR_VALIDATION_CLASS));
+            .forEach((formField) => formField.classList.remove(ERROR_VALIDATION_CLASS));
 
         document.querySelector(`.${ERROR_BOX_VALIDATION_CLASS}`).classList.add(HIDDEN_CLASS);
     }
