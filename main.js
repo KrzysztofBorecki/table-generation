@@ -230,8 +230,8 @@
         );
     }
 
-    FORM_FIELDS.forEach((formFieldElementName) => {
-        const formFieldElement = getFormFieldElement(formFieldElementName);
+    FORM_FIELDS.forEach((formFieldName) => {
+        const formFieldElement = getFormFieldElement(formFieldName);
 
         formFieldElement.addEventListener('keydown', hasClickedForbiddenKey);
         formFieldElement.addEventListener('input', handleFormChange);
