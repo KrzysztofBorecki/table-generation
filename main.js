@@ -160,9 +160,12 @@
     }
 
     function addValidationErrorStyles(
-            numberOfRows, numberOfColumns, 
-            selectedRow, selectedColumn, 
-            selectedRowElement, selectedColumnElement
+            numberOfRows,
+            numberOfColumns,
+            selectedRow,
+            selectedColumn,
+            selectedRowElement,
+            selectedColumnElement,
         ) {
         if (selectedRow > numberOfRows) {
             selectedRowElement.classList.add(ERROR_VALIDATION_CLASS);
@@ -181,10 +184,7 @@
         selector.setAttribute('placeholder', value);
     }
 
-    function setPlaceholders(
-            numberOfRows, numberOfColumns, 
-            selectedRowElement, selectedColumnElement
-        ) {
+    function setPlaceholders(numberOfRows, numberOfColumns, selectedRowElement, selectedColumnElement) {
         const selectedRowPlaceholder = numberOfRows > 0 ? `value 1 - ${numberOfRows}` : 'value > 0';
         const selectedColumnPlaceholder = numberOfColumns > 0 ? `value 1 - ${numberOfColumns}` : 'value > 0';
 
