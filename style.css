@@ -1,0 +1,142 @@
+*,
+::before,
+::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	--background-color-main: rgba(229, 234, 240, 0.5);
+	--background-color-secondary: rgba(255, 255, 255, 0.8);
+	--background-color-error-box: rgba(255, 255, 255, 0.95);
+	--background-color-red: rgb(255, 0, 0, 0.4);
+	--background-color-green: rgb(0, 128, 0, 0.4);
+	--background-color-blue: rgba(0, 0, 255, 0.4);	
+	--font-color-main: rgb(39, 40, 43);
+	--font-color-secondary: rgb(255, 255, 255, 1); 
+	--box-shadow: 11px 11px 22px -9px rgba(201, 208, 215, 1);
+	--box-shadow-inset:  5px 5px 10px -9px rgba(201, 208, 215, 0.4);
+	--border-color-red: rgb(255, 0, 0, 0.4);
+	--font-family: Calibri, Helvetica, Arial, sans-serif;
+}
+
+body {
+	min-height: 100vh;
+	width: 100%;
+	font-family: var(--font-family);
+	color: var(--font-color-main);
+	background-color: var(--background-color-main);
+}
+
+header {
+	padding: 50px 0;
+	text-align: center;
+}
+
+h1 {
+	font-size: 2.75rem;
+}
+
+main {
+	margin: 0 auto;
+	max-width: 80vw;
+}
+
+section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+	background-color: var(--background-color-secondary);
+	border-radius: 10px;
+	-webkit-box-shadow: var(--box-shadow);
+	-moz-box-shadow: var(--box-shadow);
+	box-shadow: var(--box-shadow);
+}
+
+.form-container {
+	max-width: 600px;
+	position: relative;
+}
+
+form {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;	
+	font-size: 16px;
+	line-height: 2rem;
+	
+}
+
+.input-container {
+	display: flex;
+	justify-content: space-between;
+	padding: 5px;
+	min-width: 240px;
+}
+
+.input-container input {
+	width: 14ch;
+	font-size: 16px;
+	font-family: inherit;
+	text-align: center;
+	border: none;
+	border-radius: 1ch;
+	-webkit-box-shadow: var(--box-shadow),
+		inset var(--box-shadow-inset);
+	-moz-box-shadow: var(--box-shadow),
+		inset var(--box-shadow-inset);
+	box-shadow: var(--box-shadow),
+		inset var(--box-shadow-inset);
+}
+
+.input-container input.validation-error {
+	background-color: var(--background-color-red);
+}
+
+.validation-error-box {
+	position: absolute;
+	bottom: -90px;
+	left: 0;
+	right: 0;
+	padding: 20px;
+	background-color: var(--background-color-error-box);
+	border: 2px solid var(--border-color-red);
+	border-radius: 1ch;
+	text-align: center;
+}
+
+.hidden{
+	display: none;
+}
+
+.table-container {
+	margin-top: 20px;
+	width: 100%;
+	max-height: 50vh;
+	overflow-x: auto;
+}
+
+.table {
+	margin: 0 auto;
+}
+
+.table-cell {
+	background-color: var(--background-color-main);
+	padding: 0.1875em 0.5em;
+	min-width: 50px;
+}
+
+.selected-column {
+	background-color: var(--background-color-red);
+}
+
+.selected-row {
+	background-color: var(--background-color-green);
+}
+
+.selected-row .selected-column {
+	background-color: var(--background-color-blue);
+	color: var(--font-color-secondary);
+}
