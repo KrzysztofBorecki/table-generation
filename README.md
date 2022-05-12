@@ -1,10 +1,5 @@
 # Table Generation
 
-## Final Result
-
-![](table-generation-1.png)
-![](table-generation-2.png)
-
 ## Task Description
 
 Your task is to prepare a simple form with 4 fields:
@@ -29,3 +24,8 @@ Feel free to add invalid values validation (values lower than 0 or for example s
 available number of rows) for extra points.
 
 *Task description was created by [purbanski-deftcode](https://github.com/purbanski-deftcode).*
+
+## Final Result
+
+![](table-generation-1.png)
+![](table-generation-2.png)
