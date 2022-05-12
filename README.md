@@ -2,8 +2,8 @@
 
 ## Final Result
 
-![](table-generation-1.jpg)
-![](table-generation-2.jpg)
+![](table-generation-1.png)
+![](table-generation-2.png)
 
 ## Task Description
 
